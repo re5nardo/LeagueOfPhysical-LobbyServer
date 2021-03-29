@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var redis = require('redis');
 var util = require("util");
 var Redlock = require('redlock');
+var compression = require('compression');
 require('console-stamp')(console, 'HH:MM:ss.l');
 
 var routes = require('./routes/index');
@@ -23,6 +24,7 @@ app.set('view engine', 'pug');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
+app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
