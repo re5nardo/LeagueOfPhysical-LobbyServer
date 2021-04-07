@@ -3,49 +3,79 @@ var express = require('express');
 var router = express.Router();
 var util = require("util");
 
+const UserInfo = require('../models/user_info');
+const UserMatchState = require('../models/user_match_state');
+
+const UserInfoResponse = require('../models/response/user_info_response');
 const UserMatchStateResponse = require('../models/response/user_match_state_response');
 
-const userMatchStateKeyFormat = `user.matchState:%s`;
 const gameRoomKeyFormat = `gameRoom:%s`;
 const waitingRoomKeyFormat = `waitingRoom:%s`;
 
-const userMatchStateLockKeyFormat = `lock.user.matchState:%s`;
-
-/* GET users listing. */
-router.get('/', function (req, res) {
-    res.send('respond with a resource');
+router.get('/userInfo/:userId', function (req, res) {
+    OnGetUserInfo(req, res);
 });
 
 router.get('/matchState/:userId', function (req, res) {
     OnGetUserMatchState(req, res);
 });
 
+async function OnGetUserInfo(req, res) {
+    try {
+        const filter = {
+            userId: req.params.userId
+        };
+
+        const update = {
+            userId: req.params.userId
+        };
+
+        const userInfo = await UserInfo.findOneAndUpdate(filter, update, {
+            new: true,
+            upsert: true, // Make this update into an upsert
+        });
+
+        res.json(new UserInfoResponse(200, {
+            userId: userInfo.userId,
+        }));
+    } catch (error) {
+        console.error(error);
+        res.json(new UserInfoResponse(999, null));
+    }
+}
+
 async function OnGetUserMatchState(req, res) {
-    const userMatchState = await getUserMatchState(req.params.userId);
-    if (userMatchState) {
-        res.json(new UserMatchStateResponse(200, userMatchState));
-    } else {
-        res.json(new UserMatchStateResponse(999, userMatchState));
+    try {
+        const userMatchState = await getUserMatchState(req.params.userId);
+        if (!userMatchState) {
+            return res.json(new UserMatchStateResponse(999, null));
+        }
+
+        res.json(new UserMatchStateResponse(200, {
+            state: userMatchState.state,
+            stateValue: userMatchState.stateValue,
+            matchmakingTicketId: userMatchState.matchmakingTicketId
+        }));
+    } catch (error) {
+        console.error(error);
+        res.json(new UserMatchStateResponse(999, null));
     }
 }
 
 async function getUserMatchState(userId) {
-    let userMatchStateLock;
-    const ttl = 3000;
     try {
-        userMatchStateLock = await global.redis.redlock.lock(util.format(userMatchStateLockKeyFormat, userId), ttl);
+        const filter = {
+            userId: userId
+        };
 
-        let userMatchState;
-        const userMatchStateJson = await global.redis.getAsync(util.format(userMatchStateKeyFormat, userId));
-        if (userMatchStateJson === null) {
-            userMatchState = {
-                state: '',
-                stateValue: '',
-                matchmakingTicketId: ''
-            }
-        } else {
-            userMatchState = JSON.parse(userMatchStateJson);
-        }
+        const update = {
+            userId: userId,
+        };
+
+        const userMatchState = await UserMatchState.findOneAndUpdate(filter, update, {
+            new: true,
+            upsert: true,
+        });
 
         switch (userMatchState.state) {
             case 'inWaitingRoom':
@@ -54,7 +84,7 @@ async function getUserMatchState(userId) {
                     userMatchState.state = '';
                     userMatchState.stateValue = '';
                     userMatchState.matchmakingTicketId = '';
-                    await global.redis.setAsync(util.format(userMatchStateKeyFormat, userId), JSON.stringify(userMatchState));
+                    await userMatchState.save();
                 }
                 break;
 
@@ -64,15 +94,13 @@ async function getUserMatchState(userId) {
                     userMatchState.state = '';
                     userMatchState.stateValue = '';
                     userMatchState.matchmakingTicketId = '';
-                    await global.redis.setAsync(util.format(userMatchStateKeyFormat, userId), JSON.stringify(userMatchState));
+                    await userMatchState.save();
                 }
                 break;
         }
         return userMatchState;
     } catch (error) {
         console.error(error);
-    } finally {
-        await userMatchStateLock.unlock();
     }
 }
 

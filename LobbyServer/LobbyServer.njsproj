@@ -35,7 +35,16 @@
     <Content Include="models\response\response_base.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="models\response\user_info_response.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="models\response\user_match_state_response.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="models\user_info.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="models\user_match_state.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="routes\index.js" />
