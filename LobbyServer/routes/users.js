@@ -30,10 +30,13 @@ async function OnGetUserInfo(req, res) {
             userId: req.params.userId
         };
 
-        const userInfo = await UserInfo.findOneAndUpdate(filter, update, {
+        const options = {
             new: true,
-            upsert: true, // Make this update into an upsert
-        });
+            upsert: true,
+            setDefaultsOnInsert: true
+        };
+
+        const userInfo = await UserInfo.findOneAndUpdate(filter, update, options);
 
         res.json(new UserInfoResponse(200, {
             userId: userInfo.userId,
@@ -72,10 +75,13 @@ async function getUserMatchState(userId) {
             userId: userId,
         };
 
-        const userMatchState = await UserMatchState.findOneAndUpdate(filter, update, {
+        const options = {
             new: true,
             upsert: true,
-        });
+            setDefaultsOnInsert: true
+        };
+
+        const userMatchState = await UserMatchState.findOneAndUpdate(filter, update, options);
 
         switch (userMatchState.state) {
             case 'inWaitingRoom':
