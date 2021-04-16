@@ -32,6 +32,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.js" />
+    <Content Include="models\response\join_lobby_response.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="models\response\leave_lobby_response.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="models\response\response_base.js">
       <SubType>Code</SubType>
     </Content>
