@@ -54,6 +54,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="routes\index.js" />
+    <Content Include="routes\room.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="routes\users.js" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\main.css" />

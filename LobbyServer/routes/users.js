@@ -9,7 +9,7 @@ const UserMatchState = require('../models/user_match_state');
 const UserInfoResponse = require('../models/response/user_info_response');
 const UserMatchStateResponse = require('../models/response/user_match_state_response');
 
-const gameRoomKeyFormat = `gameRoom:%s`;
+const roomKeyFormat = `room:%s`;
 const waitingRoomKeyFormat = `waitingRoom:%s`;
 
 router.get('/userInfo/:userId', function (req, res) {
@@ -95,7 +95,7 @@ async function getUserMatchState(userId) {
                 break;
 
             case 'inGameRoom':
-                const gameRoomKey = util.format(gameRoomKeyFormat, userMatchState.stateValue);
+                const gameRoomKey = util.format(roomKeyFormat, userMatchState.stateValue);
                 if (await global.redis.existsAsync(gameRoomKey) !== 1) {
                     userMatchState.state = '';
                     userMatchState.stateValue = '';
