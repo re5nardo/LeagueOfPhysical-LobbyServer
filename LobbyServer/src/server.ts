@@ -1,10 +1,11 @@
 import 'module-alias/register';
 import App from '@src/app';
 import IndexRoute from '@routes/index.route';
+import UsersRoute from '@routes/users.route';
 import validateEnv from '@utils/validateEnv';
 
 validateEnv();
 
-const app = new App([new IndexRoute()]);
+const app = new App([new IndexRoute(), new UsersRoute()]);
 
-app.run();
+app.listen();

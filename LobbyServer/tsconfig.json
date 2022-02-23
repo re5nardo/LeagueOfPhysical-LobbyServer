@@ -3,10 +3,13 @@
         "module": "commonjs",
         "target": "es6",
         "lib": ["es6"],
+        "pretty": true,
         "sourceMap": true,
         "outDir": "dist",
         "strict": true,
         "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "strictPropertyInitialization": false,
         "moduleResolution": "node",
         "baseUrl": ".",
         "paths": {
@@ -19,6 +22,8 @@
             "@routes/*": ["src/routes/*"],
             "@services/*": ["src/services/*"],
             "@utils/*": ["src/utils/*"],
+            "@dtos/*": ["src/dtos/*"],
+            "@databases": ["src/databases"],
             "@config": ["src/config"],
           }
     },
