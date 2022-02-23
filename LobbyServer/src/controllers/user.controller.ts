@@ -1,16 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
-import { User } from '@interfaces/users.interface';
-import userService from '@services/users.service';
+import { CreateUserDto } from '@dtos/user.dto';
+import { User } from '@interfaces/user.interface';
+import userService from '@services/user.service';
 
-class UsersController {
-  public userService = new userService();
+class UserController {
+  private userService = new userService();
 
   public getUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const findAllUsersData: User[] = await this.userService.findAllUser();
 
-      res.status(200).json({ data: findAllUsersData, message: 'findAll' });
+      res.status(200).json({ data: findAllUsersData, message: 'findAll' }); //  BaseResponse?
     } catch (error) {
       next(error);
     }
@@ -62,4 +62,4 @@ class UsersController {
   };
 }
 
-export default UsersController;
+export default UserController;
