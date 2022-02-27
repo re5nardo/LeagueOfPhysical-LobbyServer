@@ -23,7 +23,7 @@
             "@services/*": ["src/services/*"],
             "@utils/*": ["src/utils/*"],
             "@dtos/*": ["src/dtos/*"],
-            "@databases": ["src/databases"],
+            "@databases/*": ["src/databases/*"],
             "@config": ["src/config"],
           }
     },

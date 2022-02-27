@@ -9,7 +9,7 @@
     "scripts": {
         "build": "tsc --build",
         "clean": "tsc --build --clean",
-        "start": "node dist/server"
+        "start": "node dist/main"
     },
     "_moduleAliases": {
         "@src": "dist",
