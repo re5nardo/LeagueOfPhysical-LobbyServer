@@ -22,7 +22,10 @@
         "@routes": "dist/routes",
         "@services": "dist/services",
         "@dtos": "dist/dtos",
+        "@daos": "dist/daos",
         "@databases": "dist/databases",
+        "@caches": "dist/caches",
+        "@loaders": "dist/loaders",
         "@utils": "dist/utils"
     },
     "dependencies": {

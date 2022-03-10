@@ -23,7 +23,10 @@
             "@services/*": ["src/services/*"],
             "@utils/*": ["src/utils/*"],
             "@dtos/*": ["src/dtos/*"],
+            "@daos/*": ["src/daos/*"],
             "@databases/*": ["src/databases/*"],
+            "@caches/*": ["src/caches/*"],
+            "@loaders/*": ["src/loaders/*"],
             "@config": ["src/config"],
           }
     },

@@ -1,12 +1,12 @@
 
-import mongoose from 'mongoose';
+import mongoose, { Mongoose } from 'mongoose';
 import { NODE_ENV } from '@config';
 import { dbConnection } from '@databases/index';
 
-export default async () => {
+export async function load(): Promise<Mongoose> {
     if (NODE_ENV !== 'production') {
         mongoose.set('debug', true);
     }
     
-    await mongoose.connect(dbConnection.url, dbConnection.options);
+    return await mongoose.connect(dbConnection.url, dbConnection.options);
 };

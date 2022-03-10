@@ -5,7 +5,7 @@ import UserRoute from '@routes/user.route';
 import UserMatchRoute from '@routes/user.match.route';
 import validateEnv from '@utils/validateEnv';
 import { logger } from '@utils/logger';
-import loader from '@src/loader';
+import loader from '@loaders/index';
 
 (async () => {
     try {
