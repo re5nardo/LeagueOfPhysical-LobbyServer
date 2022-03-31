@@ -10,6 +10,6 @@ export default async () => {
         await redisLoader.load();
         logger.info('✌️ Cache loaded and connected!');
     } catch (error) {
-        Promise.reject(error);
+        return Promise.reject(error);
     }
 };

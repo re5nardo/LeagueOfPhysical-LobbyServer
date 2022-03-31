@@ -7,7 +7,10 @@ export const redisClient = createClient({
 });
 
 export async function load(): Promise<void> {
-    redisClient.on('error', (err) => console.log('Redis Client Error', err));
-    
-    await redisClient.connect();
+    try {
+        redisClient.on('error', (err) => console.log('Redis Client Error', err));
+        return await redisClient.connect();
+    } catch (error) {
+        return Promise.reject(error);
+    }
 };
