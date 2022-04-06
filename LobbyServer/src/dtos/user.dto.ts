@@ -3,13 +3,13 @@ import { Location, LocationDetail } from '@interfaces/user.location.interface';
 
 export class CreateUserDto {
   @IsString()
+  public id: string;
+
+  @IsString()
   public nickname: string;
 }
 
 export class UpdateUserDto {
-  @IsString()
-  public nickname: string;
-
   @IsNumber()
   public masterExp: number;
 

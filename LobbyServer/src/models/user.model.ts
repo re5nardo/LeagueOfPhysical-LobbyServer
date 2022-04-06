@@ -3,11 +3,11 @@ import { User } from '@interfaces/user.interface';
 import { Location } from '@interfaces/user.location.interface';
 
 const userSchema: Schema = new Schema({
-  // userId: {
-  //   type: String,
-  //   required: true,
-  //   unique: true,
-  // },
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   nickname: {
     type: String,
     default: '',
