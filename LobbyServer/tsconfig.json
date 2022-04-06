@@ -24,6 +24,7 @@
             "@utils/*": ["src/utils/*"],
             "@dtos/*": ["src/dtos/*"],
             "@daos/*": ["src/daos/*"],
+            "@repositories/*": ["src/repositories/*"],
             "@databases/*": ["src/databases/*"],
             "@caches/*": ["src/caches/*"],
             "@loaders/*": ["src/loaders/*"],

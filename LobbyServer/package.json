@@ -23,6 +23,7 @@
         "@services": "dist/services",
         "@dtos": "dist/dtos",
         "@daos": "dist/daos",
+        "@repositories": "dist/repositories",
         "@databases": "dist/databases",
         "@caches": "dist/caches",
         "@loaders": "dist/loaders",
