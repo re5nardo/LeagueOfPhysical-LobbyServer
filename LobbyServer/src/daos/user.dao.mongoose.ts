@@ -74,7 +74,7 @@ export class UserDaoMongooseImpl implements UserDao {
     //  Delete
     public async delete(user: User): Promise<void> {
         try {
-            return await this.deleteById(user.id);
+            await this.deleteById(user.id);
         } catch (error) {
             return Promise.reject(error);
         }
@@ -92,7 +92,7 @@ export class UserDaoMongooseImpl implements UserDao {
         try {
             if (users) {
                 const ids = Array.from(users).map<string>(user => user.id);
-                return await this.deleteAllById(ids);
+                await this.deleteAllById(ids);
             } else {
                 await userModel.deleteMany({});
             }
