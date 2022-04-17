@@ -1,7 +1,7 @@
 import { IsNumber, IsString, IsEnum, IsObject } from 'class-validator';
 import { Location, LocationDetail } from '@interfaces/user.location.interface';
 
-export class CreateUserDto {
+export class UserCreateDto {
     @IsString()
     public id: string;
 
@@ -9,7 +9,7 @@ export class CreateUserDto {
     public nickname: string;
 }
 
-export class UpdateUserDto {
+export class UserUpdateDto {
     @IsNumber()
     public masterExp: number;
 
@@ -30,4 +30,27 @@ export class UpdateUserDto {
 
     @IsObject()
     public locationDetail: LocationDetail;
+}
+
+export class UserResponseDto {
+    @IsString()
+    public id: string;
+
+    @IsString()
+    public nickname: string;
+
+    @IsNumber()
+    public masterExp: number;
+
+    @IsNumber()
+    public friendlyRating: number;
+
+    @IsNumber()
+    public rankRating: number;
+
+    @IsNumber()
+    public goldCoin: number;
+
+    @IsNumber()
+    public gem: number;
 }
