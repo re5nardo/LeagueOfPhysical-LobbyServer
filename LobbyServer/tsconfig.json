@@ -28,6 +28,7 @@
             "@databases/*": ["src/databases/*"],
             "@caches/*": ["src/caches/*"],
             "@loaders/*": ["src/loaders/*"],
+            "@factories/*": ["src/factories/*"],
             "@config": ["src/config"],
           }
     },

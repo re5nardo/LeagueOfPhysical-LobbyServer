@@ -27,6 +27,7 @@
         "@databases": "dist/databases",
         "@caches": "dist/caches",
         "@loaders": "dist/loaders",
+        "@factories": "dist/factories",
         "@utils": "dist/utils"
     },
     "dependencies": {
