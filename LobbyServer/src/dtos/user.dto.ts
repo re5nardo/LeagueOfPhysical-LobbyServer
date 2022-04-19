@@ -1,5 +1,7 @@
 import { IsNumber, IsString, IsEnum, IsObject } from 'class-validator';
 import { Location, LocationDetail } from '@interfaces/user.location.interface';
+import { User } from '@interfaces/user.interface';
+import { UserFactory } from '@factories/user.factory';
 
 export class UserCreateDto {
     @IsString()
@@ -7,6 +9,13 @@ export class UserCreateDto {
 
     @IsString()
     public nickname: string;
+
+    public toEntity(): User {
+        return UserFactory.create({
+            id: this.id,
+            nickname: this.nickname,
+        });
+    }
 }
 
 export class UserUpdateDto {
@@ -30,6 +39,17 @@ export class UserUpdateDto {
 
     @IsObject()
     public locationDetail: LocationDetail;
+
+    public toEntity(user: User): User {
+        user.masterExp = this.masterExp;
+        user.friendlyRating = this.friendlyRating;
+        user.rankRating = this.rankRating;
+        user.goldCoin = this.goldCoin;
+        user.gem = this.gem;
+        user.location = this.location;
+        user.locationDetail = this.locationDetail;
+        return user;
+    }
 }
 
 export class UserResponseDto {
@@ -53,4 +73,18 @@ export class UserResponseDto {
 
     @IsNumber()
     public gem: number;
+
+    private constructor(user: User) {
+        this.id = user.id;
+        this.nickname = user.nickname;
+        this.masterExp = user.masterExp;
+        this.friendlyRating = user.friendlyRating;
+        this.rankRating = user.rankRating;
+        this.goldCoin = user.goldCoin;
+        this.gem = user.gem;
+    }
+
+    public static from(user: User): UserResponseDto {
+        return new UserResponseDto(user);
+    }
 }
