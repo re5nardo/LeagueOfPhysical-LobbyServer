@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserCreateDto, UserUpdateDto } from '@dtos/user.dto';
+import { UserCreateDto, UserUpdateDto, UserResponseDto } from '@dtos/user.dto';
 import { User } from '@interfaces/user.interface';
 import userService from '@services/user.service';
 
@@ -9,8 +9,9 @@ class UserController {
     public getUsers = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const findAllUsersData: User[] = await this.userService.findAllUser();
+            const users: UserResponseDto[] = Array.from(findAllUsersData).map<UserResponseDto>(userData => UserResponseDto.from(userData));
 
-            res.status(200).json({ data: findAllUsersData, message: 'findAll' }); //  BaseResponse?
+            res.status(200).json({ data: users, message: 'findAll' }); //  BaseResponse?
         } catch (error) {
             next(error);
         }
@@ -21,7 +22,7 @@ class UserController {
             const userId: string = req.params.id;
             const findOneUserData: User = await this.userService.findUserById(userId);
 
-            res.status(200).json({ data: findOneUserData, message: 'findOne' });
+            res.status(200).json({ data: UserResponseDto.from(findOneUserData), message: 'findOne' });
         } catch (error) {
             next(error);
         }
@@ -32,7 +33,7 @@ class UserController {
             const userCreateDto: UserCreateDto = req.body;
             const createUserData: User = await this.userService.createUser(userCreateDto);
 
-            res.status(201).json({ data: createUserData, message: 'created' });
+            res.status(201).json({ data: UserResponseDto.from(createUserData), message: 'created' });
         } catch (error) {
             next(error);
         }
@@ -44,7 +45,7 @@ class UserController {
             const userUpdateDto: UserUpdateDto = req.body;
             const updateUserData: User = await this.userService.updateUser(userId, userUpdateDto);
 
-            res.status(200).json({ data: updateUserData, message: 'updated' });
+            res.status(200).json({ data: UserResponseDto.from(updateUserData), message: 'updated' });
         } catch (error) {
             next(error);
         }
