@@ -9,7 +9,8 @@
     "scripts": {
         "build": "tsc --build",
         "clean": "tsc --build --clean",
-        "start": "node dist/main"
+        "start": "node dist/main",
+        "buildNstart": "npm run build && npm run start"
     },
     "_moduleAliases": {
         "@src": "dist",

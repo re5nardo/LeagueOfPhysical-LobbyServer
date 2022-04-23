@@ -6,7 +6,7 @@ export class UserDaoMongooseImpl implements UserDao {
     //  Create & Update
     public async save(user: User): Promise<User> {
         try {
-            return await userModel.findOneAndUpdate({ id: user.id }, user, { new: true, upsert: true });
+            return await userModel.findOneAndUpdate({ id: user.id }, user, { new: true, upsert: true }).lean();
         } catch (error) {
             return Promise.reject(error);
         }
@@ -49,7 +49,7 @@ export class UserDaoMongooseImpl implements UserDao {
 
     public async findById(id: string): Promise<User | undefined | null> {
         try {
-            return await userModel.findOne({ id: id });
+            return await userModel.findOne({ id: id }).lean();
         } catch (error) {
             return Promise.reject(error);
         }
@@ -57,7 +57,7 @@ export class UserDaoMongooseImpl implements UserDao {
 
     public async findAll(): Promise<Iterable<User>> {
         try {
-            return await userModel.find();
+            return await userModel.find().lean();
         } catch (error) {
             return Promise.reject(error);
         }
@@ -65,7 +65,7 @@ export class UserDaoMongooseImpl implements UserDao {
 
     public async findAllById(ids: Iterable<string>): Promise<Iterable<User>> {
         try {
-            return await userModel.find({ id: { $in: ids } });
+            return await userModel.find({ id: { $in: ids } }).lean();
         } catch (error) {
             return Promise.reject(error);
         }
