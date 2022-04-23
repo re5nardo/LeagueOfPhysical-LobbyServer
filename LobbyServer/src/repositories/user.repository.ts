@@ -16,7 +16,7 @@ export class UserRepositoryImpl implements UserRepository {
     public async save(user: User): Promise<User> {
         try {
             const response = await this.userDao.save(user);
-            await this.userCacheDao.save(user);
+            await this.userCacheDao.delete(user);   //  invalidate cache
             return response;
         } catch (error) {
             return Promise.reject(error);
@@ -26,7 +26,7 @@ export class UserRepositoryImpl implements UserRepository {
     public async saveAll(users: Iterable<User>): Promise<void> {
         try {
             await this.userDao.saveAll(users);
-            await this.userCacheDao.saveAll(users);
+            await this.userCacheDao.deleteAll(users);   //  invalidate cache
         } catch (error) {
             return Promise.reject(error);
         }
@@ -51,11 +51,14 @@ export class UserRepositoryImpl implements UserRepository {
 
     public async findById(id: string): Promise<User | undefined | null> {
         try {
-            const cached = await this.userCacheDao.findById(id);
-            if (cached) {
-                return cached;
+            if (await this.userCacheDao.existsById(id)) {
+                return await this.userCacheDao.findById(id);
             } else {
-                return await this.userDao.findById(id);
+                const user = await this.userDao.findById(id);
+                if (user) {
+                    await this.userCacheDao.save(user);
+                }
+                return user;
             }
         } catch (error) {
             return Promise.reject(error);
@@ -64,12 +67,7 @@ export class UserRepositoryImpl implements UserRepository {
 
     public async findAll(): Promise<Iterable<User>> {
         try {
-            const cached = await this.userCacheDao.findAll();
-            if (cached) {
-                return cached;
-            } else {
-                return await this.userDao.findAll();
-            }
+            return await this.userDao.findAll();
         } catch (error) {
             return Promise.reject(error);
         }
@@ -77,12 +75,16 @@ export class UserRepositoryImpl implements UserRepository {
 
     public async findAllById(ids: Iterable<string>): Promise<Iterable<User>> {
         try {
-            const cached = await this.userCacheDao.findAllById(ids);
-            if (cached) {
-                return cached;
-            } else {
-                return await this.userDao.findAllById(ids);
+            const cachedUsers = await this.userCacheDao.findAllById(ids);
+            const idsToGet = new Set(ids);
+            for (const cachedUser of cachedUsers) {
+                idsToGet.delete(cachedUser.id);
             }
+
+            const users = await this.userDao.findAllById(Array.from(idsToGet));
+            await this.userCacheDao.saveAll(users);
+
+            return [...cachedUsers, ...users];
         } catch (error) {
             return Promise.reject(error);
         }

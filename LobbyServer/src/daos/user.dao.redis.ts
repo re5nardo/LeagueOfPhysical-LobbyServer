@@ -47,7 +47,7 @@ export class UserDaoRedisImpl implements UserDao {
 
     public async findById(id: string): Promise<User | undefined | null> {
         try {
-            const response = await redisClient.get(`${USER_PREFIX}${id}`);
+            const response = await redisClient.getEx(`${USER_PREFIX}${id}`, { EX: TTL });
             if (response) {
                 return JSON.parse(response);
             } else {
@@ -60,7 +60,15 @@ export class UserDaoRedisImpl implements UserDao {
 
     public async findAll(): Promise<Iterable<User>> {
         try {
-            return await redisClient.findAll(`${USER_PREFIX}*`) as User[];
+            const users = await redisClient.findAll(`${USER_PREFIX}*`) as User[];
+
+            const multi = redisClient.multi();
+            for (let user of users) {
+                multi.expire(`${USER_PREFIX}${user.id}`, TTL);
+            }
+            await multi.exec();
+
+            return users;       
         } catch (error) {
             return Promise.reject(error);
         }
@@ -76,6 +84,13 @@ export class UserDaoRedisImpl implements UserDao {
                     users.push(JSON.parse(value) as User);
                 }
             }
+
+            const multi = redisClient.multi();
+            for (let user of users) {
+                multi.expire(`${USER_PREFIX}${user.id}`, TTL);
+            }
+            await multi.exec();
+
             return users;
         } catch (error) {
             return Promise.reject(error);
