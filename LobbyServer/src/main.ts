@@ -2,7 +2,6 @@ import 'module-alias/register';
 import App from '@src/app';
 import IndexRoute from '@routes/index.route';
 import UserRoute from '@routes/user.route';
-import UserMatchRoute from '@routes/user.match.route';
 import validateEnv from '@utils/validateEnv';
 import { logger } from '@utils/logger';
 import loader from '@loaders/index';
@@ -13,7 +12,7 @@ import loader from '@loaders/index';
 
         await loader();
 
-        const app = new App([new IndexRoute(), new UserMatchRoute(), new UserRoute()]);
+        const app = new App([new IndexRoute(), new UserRoute()]);
 
         app.listen();
 
