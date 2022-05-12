@@ -11,7 +11,7 @@ class UserService {
     
     private userRepository: UserRepository = new UserRepositoryImpl(new UserDaoMongooseImpl(), new UserDaoRedisImpl());
 
-    public async findAllUser(): Promise<User[]> {
+    public async findAllUsers(): Promise<User[]> {
         try {
             return await this.userRepository.findAll() as User[];
         } catch (error) {
@@ -19,13 +19,21 @@ class UserService {
         }
     }
 
-    public async findUserById(userId: string): Promise<User> {
+    public async findAllUsersById(ids: Iterable<string>): Promise<User[]> {
         try {
-            if (isEmpty(userId)) {
-                throw new HttpException(400, "You're not userId");
+            return await this.userRepository.findAllById(ids) as User[];
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    public async findUserById(id: string): Promise<User> {
+        try {
+            if (isEmpty(id)) {
+                throw new HttpException(400, "You're not id");
             }
 
-            const findUser = await this.userRepository.findById(userId);
+            const findUser = await this.userRepository.findById(id);
             if (!findUser) {
                 throw new HttpException(409, "You're not user");
             }
@@ -52,7 +60,7 @@ class UserService {
         }
     }
 
-    public async updateUser(userId: string, userUpdateDto: UserUpdateDto): Promise<User> {
+    public async updateUser(id: string, userUpdateDto: UserUpdateDto): Promise<User> {
         try {
             if (isEmpty(userUpdateDto)) {
                 throw new HttpException(400, "You're not userData");
@@ -60,7 +68,7 @@ class UserService {
 
             // if (userData.nickname) {
             //   const findUser = await this.userModel.findOne({ nickname: userData.nickname });
-            //   if (findUser && findUser._id != userId) throw new HttpException(409, `You're nickname ${userData.nickname} already exists`);
+            //   if (findUser && findUser._id != id) throw new HttpException(409, `You're nickname ${userData.nickname} already exists`);
             // }
 
             // if (userData.password) {
@@ -68,7 +76,7 @@ class UserService {
             //   userData = { ...userData, password: hashedPassword };
             // }
 
-            const user = await this.userRepository.findById(userId);
+            const user = await this.userRepository.findById(id);
             if (user) {
                 return await this.userRepository.save(userUpdateDto.toEntity(user));
             } else {
@@ -79,9 +87,17 @@ class UserService {
         }
     }
 
-    public async deleteUser(userId: string): Promise<void> {
+    public async deleteUser(user: User): Promise<void> {
         try {
-            return await this.userRepository.deleteById(userId);
+            return await this.userRepository.delete(user);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    public async deleteUserById(id: string): Promise<void> {
+        try {
+            return await this.userRepository.deleteById(id);
         } catch (error) {
             return Promise.reject(error);
         }
@@ -115,47 +131,7 @@ class UserService {
         }
     }
 
-    public async findById(id: string): Promise<User | undefined | null> {
-        try {
-            return await this.userRepository.findById(id);
-        } catch (error) {
-            return Promise.reject(error);
-        }
-    }
-
-    public async findAll(): Promise<User[]> {
-        try {
-            return await this.userRepository.findAll() as User[];
-        } catch (error) {
-            return Promise.reject(error);
-        }
-    }
-
-    public async findAllById(ids: Iterable<string>): Promise<User[]> {
-        try {
-            return await this.userRepository.findAllById(ids) as User[];
-        } catch (error) {
-            return Promise.reject(error);
-        }
-    }
-
-    public async delete(user: User): Promise<void> {
-        try {
-            return await this.userRepository.delete(user);
-        } catch (error) {
-            return Promise.reject(error);
-        }
-    }
-
-    public async deleteById(id: string): Promise<void> {
-        try {
-            return await this.userRepository.deleteById(id);
-        } catch (error) {
-            return Promise.reject(error);
-        }
-    }
-
-    public async deleteAll(users?: Iterable<User>): Promise<void> {
+    public async deleteAllUsers(users?: Iterable<User>): Promise<void> {
         try {
             if (users) {
                 return await this.userRepository.deleteAll(users);
@@ -167,7 +143,7 @@ class UserService {
         }
     }
 
-    public async deleteAllById(ids: Iterable<string>): Promise<void> {
+    public async deleteAllUsersById(ids: Iterable<string>): Promise<void> {
         try {
             return await this.userRepository.deleteAllById(ids);
         } catch (error) {

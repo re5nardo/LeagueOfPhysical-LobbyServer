@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { Room } from '@interfaces/room.interface';
-import roomService from '@services/room.service';
+import RoomService from '@services/room.service';
 
 class RoomController {
-    private roomService = new roomService();
+    private roomService = new RoomService();
     
     public getRooms = async (req: Request, res: Response, next: NextFunction) => {
         try {

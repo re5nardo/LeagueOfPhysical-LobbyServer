@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserCreateDto, UserUpdateDto, UserResponseDto } from '@dtos/user.dto';
 import { User } from '@interfaces/user.interface';
-import userService from '@services/user.service';
+import UserService from '@services/user.service';
 
 class UserController {
-    private userService = new userService();
+    private userService = new UserService();
 
     public getUsers = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const findAllUsersData: User[] = await this.userService.findAllUser();
+            const findAllUsersData: User[] = await this.userService.findAllUsers();
             const users: UserResponseDto[] = Array.from(findAllUsersData).map<UserResponseDto>(userData => UserResponseDto.from(userData));
 
             res.status(200).json({ data: users, message: 'findAll' }); //  BaseResponse?
@@ -54,7 +54,7 @@ class UserController {
     public deleteUser = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId: string = req.params.id;
-            await this.userService.deleteUser(userId);
+            await this.userService.deleteUserById(userId);
 
             res.status(200).json({ data: {}, message: `userId: ${userId} deleted` });
         } catch (error) {
