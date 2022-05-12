@@ -1,4 +1,3 @@
-import 'module-alias/register';
 import App from '@src/app';
 import IndexRoute from '@routes/index.route';
 import UserRoute from '@routes/user.route';
