@@ -2,14 +2,11 @@ import { UserCreateDto, UserUpdateDto } from '@dtos/user.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { User } from '@interfaces/user.interface';
 import { isEmpty } from '@utils/util';
-import { UserRepository } from '@repositories/user.repository.interface';
-import { UserRepositoryImpl } from '@repositories/user.repository';
-import { UserDaoMongooseImpl } from '@daos/user.dao.mongoose';
-import { UserDaoRedisImpl } from '@daos/user.dao.redis';
+import { UserRepository } from '@repositories/user.repository';
 
 class UserService {
     
-    private userRepository: UserRepository = new UserRepositoryImpl(new UserDaoMongooseImpl(), new UserDaoRedisImpl());
+    private userRepository = new UserRepository();
 
     public async findAllUsers(): Promise<User[]> {
         try {
