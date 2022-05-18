@@ -6,30 +6,16 @@ const matchSettingSchema = new Schema({
         type: String,
         enum: MatchType,
     },
-    subGameId: {
-        type: String,
-    },
-    mapId: {
-        type: String,
-    },
+    subGameId: String,
+    mapId: String,
 });
 
 const roomSchema: Schema = new Schema({
-    matchId: {
-        type: String,
-    },
-    expectedPlayerList: {
-        type: [String],
-    },
-    matchSetting: {
-        type: matchSettingSchema,
-    },
-    ip: {
-        type: String,
-    },
-    port: {
-        type: Number,
-    },
+    matchId: String,
+    expectedPlayerList: [String],
+    matchSetting: matchSettingSchema,
+    ip: String,
+    port: Number,
 });
 
 const roomModel = model<Room & Document>('Room', roomSchema);

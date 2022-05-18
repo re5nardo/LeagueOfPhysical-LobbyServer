@@ -8,37 +8,17 @@ const userSchema: Schema = new Schema({
         required: true,
         unique: true,
     },
-    nickname: {
-        type: String,
-        default: '',
-    },
-    masterExp: {
-        type: Number,
-        default: 0,
-    },
-    friendlyRating: {
-        type: Number,
-        default: 1500,
-    },
-    rankRating: {
-        type: Number,
-        default: 1500,
-    },
-    goldCoin: {
-        type: Number,
-        default: 100,
-    },
-    gem: {
-        type: Number,
-        default: 10,
-    },
+    nickname: String,
+    masterExp: Number,
+    friendlyRating: Number,
+    rankRating: Number,
+    goldCoin: Number,
+    gem: Number,
     location: {
         type: String,
         enum: Location,
     },
-    locationDetail: {
-        type: Schema.Types.Mixed,
-    },
+    locationDetail: Schema.Types.Mixed,
 });
 
 const userModel = model<User & Document>('User', userSchema);
