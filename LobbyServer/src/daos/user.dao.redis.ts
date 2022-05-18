@@ -47,9 +47,14 @@ export class UserDaoRedisImpl implements UserDao {
 
     public async findById(id: string): Promise<User | undefined | null> {
         try {
-            const response = await redisClient.getEx(`${USER_PREFIX}${id}`, { EX: TTL });
+            //  getEx not working.., use multi instead.
+            const multi = redisClient.multi();
+            multi.get(`${USER_PREFIX}${id}`);
+            multi.expire(`${USER_PREFIX}${id}`, TTL);
+            const response = (await multi.exec())[0];
+
             if (response) {
-                return JSON.parse(response);
+                return JSON.parse(response.toString());
             } else {
                 return null;
             }
