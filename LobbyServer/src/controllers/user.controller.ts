@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserCreateDto, UserUpdateDto, UserResponseDto } from '@dtos/user.dto';
+import { UserCreateDto, UserUpdateDto, UserResponseDto, GetUserResponseDto } from '@dtos/user.dto';
 import { User } from '@interfaces/user.interface';
 import UserService from '@services/user.service';
+import { ResponseCode } from '@interfaces/responseCode.interface';
 
 class UserController {
     private userService = new UserService();
@@ -20,9 +21,20 @@ class UserController {
     public getUserById = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId: string = req.params.id;
-            const findOneUserData: User = await this.userService.findUserById(userId);
+            const findOneUserData = await this.userService.findUserById(userId);
 
-            res.status(200).json({ data: UserResponseDto.from(findOneUserData), message: 'findOne' });
+            if (findOneUserData) {
+                const response: GetUserResponseDto = {
+                    code: ResponseCode.SUCCESS,
+                    user: UserResponseDto.from(findOneUserData)
+                }
+                res.status(200).json(response);
+            } else {
+                const response: GetUserResponseDto = {
+                    code: ResponseCode.USER_NOT_EXIST
+                }
+                res.status(200).json(response);
+            }
         } catch (error) {
             next(error);
         }

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import LobbyService from '@services/lobby.service';
 import { LobbyJoinResponseDto, LobbyLeaveResponseDto } from '@dtos/lobby.dto';
+import { ResponseCode } from '@interfaces/responseCode.interface';
 
 class LobbyController {
     private lobbyService = new LobbyService();
@@ -10,7 +11,7 @@ class LobbyController {
             const userId = req.params.id;
             await this.lobbyService.joinLobby(userId);
             const response: LobbyJoinResponseDto = {
-                code: 0
+                code: ResponseCode.SUCCESS
             };
             res.status(200).json(response);
         } catch (error) {
@@ -23,7 +24,7 @@ class LobbyController {
             const userId = req.params.id;
             await this.lobbyService.leaveLobby(userId);
             const response: LobbyLeaveResponseDto = {
-                code: 0
+                code: ResponseCode.SUCCESS
             };
             res.status(200).json(response);
         } catch (error) {
