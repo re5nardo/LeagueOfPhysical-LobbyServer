@@ -24,15 +24,17 @@ class UserService {
         }
     }
 
-    public async findUserById(id: string): Promise<User> {
+    public async findUserById(id: string): Promise<User | undefined> {
         try {
             if (isEmpty(id)) {
-                throw new HttpException(400, "You're not id");
+                return undefined;
+                //throw new HttpException(400, "You're not id");
             }
 
             const findUser = await this.userRepository.findById(id);
             if (!findUser) {
-                throw new HttpException(409, "You're not user");
+                return undefined;
+                //throw new HttpException(409, "You're not user");
             }
             return findUser;
         } catch (error) {
