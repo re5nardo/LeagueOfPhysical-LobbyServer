@@ -1,6 +1,7 @@
 import App from '@src/app';
 import IndexRoute from '@routes/index.route';
 import UserRoute from '@routes/user.route';
+import LobbyRoute from '@routes/lobby.route';
 import validateEnv from '@utils/validateEnv';
 import { logger } from '@utils/logger';
 import loader from '@loaders/index';
@@ -11,7 +12,7 @@ import loader from '@loaders/index';
 
         await loader();
 
-        const app = new App([new IndexRoute(), new UserRoute()]);
+        const app = new App([new IndexRoute(), new UserRoute(), new LobbyRoute()]);
 
         app.listen();
 
