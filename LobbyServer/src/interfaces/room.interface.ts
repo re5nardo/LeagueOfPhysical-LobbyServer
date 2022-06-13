@@ -1,19 +1,17 @@
+import { MatchType } from "@interfaces/match.interface";
 
-export enum MatchType {
-    Friendly = 0,
-    Rank = 1,
-}
-
-interface MatchSetting {
-    matchType: MatchType;
-    subGameId: string;
-    mapId: string;
+export enum RoomStatus {
+    None = 0,
 }
 
 export interface Room {
+    id: string;
     matchId: string;
-    expectedPlayerList: string[];
-    matchSetting: MatchSetting;
-    ip: string;
-    port: number;
-}
+    matchType: MatchType;
+    subGameId: string;
+    mapId: string;
+    targetRating: number;
+    createdAt: number;
+    exptectedPlayerList: string[];
+    status: RoomStatus;
+};
