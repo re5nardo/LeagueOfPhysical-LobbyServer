@@ -15,5 +15,5 @@ export class GameRoomLocationDetail extends LocationDetail {
 
 export class WaitingRoomLocationDetail extends LocationDetail {
     waitingRoomId: string;
-    //matchmakingTicketId: string;
+    matchmakingTicketId: string;
 }

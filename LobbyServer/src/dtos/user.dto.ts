@@ -53,32 +53,26 @@ export class UserUpdateDto {
     }
 }
 
-export class UserResponseDto {
+export class UserLocationUpdateDto {
     @IsString()
-    public id: string;
-
-    @IsString()
-    public nickname: string;
-
-    @IsNumber()
-    public masterExp: number;
-
-    @IsNumber()
-    public friendlyRating: number;
-
-    @IsNumber()
-    public rankRating: number;
-
-    @IsNumber()
-    public goldCoin: number;
-
-    @IsNumber()
-    public gem: number;
+    public userId: string;
 
     @IsEnum(Location)
     public location: Location;
 
     @IsObject()
+    public locationDetail: LocationDetail;
+}
+
+export class UserResponseDto {
+    public id: string;
+    public nickname: string;
+    public masterExp: number;
+    public friendlyRating: number;
+    public rankRating: number;
+    public goldCoin: number;
+    public gem: number;
+    public location: Location;
     public locationDetail: LocationDetail;
 
     private constructor(user: User) {
