@@ -1,22 +1,16 @@
-
-import { HttpException } from '@exceptions/HttpException';
 import { Room } from '@interfaces/room.interface';
-import roomModel from '@models/room.model';
-import { isEmpty } from '@utils/util';
+import RoomServerService from '@services/httpServices/roomServerService';
 
 class RoomService {
-    public async findAllRoom(): Promise<Room[]> {
-        const rooms: Room[] = await roomModel.find();
-        return rooms;
-    }
 
-    public async findRoomById(roomId: string): Promise<Room> {
-        if (isEmpty(roomId)) throw new HttpException(400, "You're not roomId");
+    private roomServerService = new RoomServerService();
 
-        const findRoom = await roomModel.findOne({ _id: roomId });
-        if (!findRoom) throw new HttpException(409, "You're not room");
-
-        return findRoom;
+    public async findRoomById(roomId: string): Promise<Room | undefined> {
+        try {
+            return await this.roomServerService.findRoomById(roomId);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 }
 
