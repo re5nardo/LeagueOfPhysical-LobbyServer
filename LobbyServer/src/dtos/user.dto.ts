@@ -96,3 +96,13 @@ export class GetUserResponseDto implements ResponseBase {
     public code: number;
     public user?: UserResponseDto;
 }
+
+export class VerifyUserLocationResponseDto implements ResponseBase {
+    public code: number;
+    public user?: UserResponseDto;
+}
+
+export class UpdateUserLocationResponseDto implements ResponseBase {
+    public code: number;
+    public user?: UserResponseDto;
+}

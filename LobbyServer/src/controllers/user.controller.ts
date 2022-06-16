@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserCreateDto, UserUpdateDto, UserResponseDto, GetUserResponseDto } from '@dtos/user.dto';
+import { UserCreateDto, UserUpdateDto, UserResponseDto, UserLocationUpdateDto } from '@dtos/user.dto';
 import { User } from '@interfaces/user.interface';
 import UserService from '@services/user.service';
-import { ResponseCode } from '@interfaces/responseCode.interface';
 
 class UserController {
     private userService = new UserService();
@@ -21,20 +20,8 @@ class UserController {
     public getUserById = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId: string = req.params.id;
-            const findOneUserData = await this.userService.findUserById(userId);
-
-            if (findOneUserData) {
-                const response: GetUserResponseDto = {
-                    code: ResponseCode.SUCCESS,
-                    user: UserResponseDto.from(findOneUserData)
-                }
-                res.status(200).json(response);
-            } else {
-                const response: GetUserResponseDto = {
-                    code: ResponseCode.USER_NOT_EXIST
-                }
-                res.status(200).json(response);
-            }
+            const response = await this.userService.findUserById(userId);
+            res.status(200).json(response);
         } catch (error) {
             next(error);
         }
@@ -69,6 +56,26 @@ class UserController {
             await this.userService.deleteUserById(userId);
 
             res.status(200).json({ data: {}, message: `userId: ${userId} deleted` });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public verifyUserLocation = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const userId: string = req.params.id;
+            const response = await this.userService.verifyUserLocation(userId);
+            res.status(200).json(response);
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public updateUserLocation = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const userLocationUpdateDto: UserLocationUpdateDto = req.body;
+            const response = await this.userService.updateUserLocation(userLocationUpdateDto);
+            res.status(200).json(response);
         } catch (error) {
             next(error);
         }
