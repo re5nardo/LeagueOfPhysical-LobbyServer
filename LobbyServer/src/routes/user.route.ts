@@ -20,6 +20,7 @@ class UserRoute implements Routes {
         //#endregion
 
         this.router.get(`${this.path}/all`, this.userController.getUsers);
+        this.router.get(`${this.path}/findAll`, this.userController.findAllUsers);
         this.router.get(`${this.path}/:id`, this.userController.getUserById);
         this.router.post(`${this.path}`, validationMiddleware(UserCreateDto, 'body'), this.userController.createUser);
         this.router.put(`${this.path}/:id`, validationMiddleware(UserUpdateDto, 'body', true), this.userController.updateUser);

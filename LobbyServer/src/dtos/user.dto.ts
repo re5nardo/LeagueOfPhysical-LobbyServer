@@ -97,6 +97,11 @@ export class GetUserResponseDto implements ResponseBase {
     public user?: UserResponseDto;
 }
 
+export class FindAllUsersResponseDto implements ResponseBase {
+    public code: number;
+    public users?: UserResponseDto[];
+}
+
 export class VerifyUserLocationResponseDto implements ResponseBase {
     public code: number;
     public user?: UserResponseDto;

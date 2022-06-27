@@ -80,6 +80,16 @@ class UserController {
             next(error);
         }
     };
+    
+    public findAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const ids = req.query.ids as string[];
+            const response = await this.userService.findAllUsersById(ids);
+            res.status(200).json(response);
+        } catch (error) {
+            next(error);
+        }
+    };
 }
 
 export default UserController;

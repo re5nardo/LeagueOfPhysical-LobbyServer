@@ -1,4 +1,4 @@
-import { UserCreateDto, UserUpdateDto, UserLocationUpdateDto, VerifyUserLocationResponseDto, UpdateUserLocationResponseDto, GetUserResponseDto } from '@dtos/user.dto';
+import { UserCreateDto, UserUpdateDto, UserLocationUpdateDto, VerifyUserLocationResponseDto, UpdateUserLocationResponseDto, GetUserResponseDto, FindAllUsersResponseDto } from '@dtos/user.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { User } from '@interfaces/user.interface';
 import { isEmpty } from '@utils/util';
@@ -24,9 +24,12 @@ class UserService {
         }
     }
 
-    public async findAllUsersById(ids: Iterable<string>): Promise<User[]> {
+    public async findAllUsersById(ids: Iterable<string>): Promise<FindAllUsersResponseDto> {
         try {
-            return await this.userRepository.findAllById(ids) as User[];
+            return {
+                code: ResponseCode.SUCCESS,
+                users: await this.userRepository.findAllById(ids) as User[]
+            };
         } catch (error) {
             return Promise.reject(error);
         }
