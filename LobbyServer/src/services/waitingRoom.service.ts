@@ -1,5 +1,5 @@
 import { WaitingRoom } from '@interfaces/waitingRoom.interface';
-import MatchmakingServerService from '@services/httpservices/matchmakingServerService';
+import MatchmakingServerService from '@services/httpServices/matchmakingServer.service';
 
 class WaitingRoomService {
 

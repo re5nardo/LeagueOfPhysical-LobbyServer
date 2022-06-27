@@ -1,5 +1,5 @@
 import { Room } from '@interfaces/room.interface';
-import RoomServerService from '@services/httpServices/roomServerService';
+import RoomServerService from '@services/httpServices/roomServer.service';
 
 class RoomService {
 

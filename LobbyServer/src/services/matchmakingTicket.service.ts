@@ -1,5 +1,5 @@
 import { MatchmakingTicket } from '@interfaces/MatchmakingTicket.interface';
-import MatchmakingServerService from '@services/httpServices/matchmakingServerService';
+import MatchmakingServerService from '@services/httpServices/matchmakingServer.service';
 
 class MatchmakingTicketService {
 
