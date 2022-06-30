@@ -134,8 +134,8 @@ class UserService {
 
                 case Location.InGameRoom:
                     const gameRoomLocationDetail = user.locationDetail as GameRoomLocationDetail;
-                    const room = await this.roomService.findRoomById(gameRoomLocationDetail.gameRoomId);
-                    if (!room) {
+                    const getRoomResponseDto = await this.roomService.findRoomById(gameRoomLocationDetail.gameRoomId);
+                    if (!getRoomResponseDto.room) {
                         user.location = Location.Unknown;
                         user.locationDetail = {
                             location: Location.Unknown
