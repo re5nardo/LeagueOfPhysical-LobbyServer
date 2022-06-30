@@ -15,7 +15,7 @@ const userSchema: Schema = new Schema({
     goldCoin: Number,
     gem: Number,
     location: {
-        type: String,
+        type: Number,
         enum: Location,
     },
     locationDetail: Schema.Types.Mixed,
