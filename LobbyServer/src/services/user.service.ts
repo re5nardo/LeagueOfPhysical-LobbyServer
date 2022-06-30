@@ -155,7 +155,7 @@ class UserService {
     public async updateUserLocation(updateUserLocationDto: UpdateUserLocationDto): Promise<UpdateUserLocationResponseDto> {
         try {
             const userIds = updateUserLocationDto.userLocations.map(userLocation => userLocation.userId);
-            let users = await this.userRepository.findAllById(userIds);
+            const users = await this.userRepository.findAllById(userIds);
             for (const user of users) {
                 const userLocationDto = updateUserLocationDto.userLocations.find(userLocation => userLocation.userId == user.id);
                 if (userLocationDto) {
@@ -165,11 +165,11 @@ class UserService {
             }
 
             await this.userRepository.saveAll(users);
-            users = await this.userRepository.findAllById(userIds);
+            const savedUsers = await this.userRepository.findAllById(userIds);
 
             return {
                 code: ResponseCode.SUCCESS,
-                users: Array.from(users).map<UserResponseDto>(user => UserResponseDto.from(user))
+                users: Array.from(savedUsers).map<UserResponseDto>(user => UserResponseDto.from(user))
             };
         } catch (error) {
             return Promise.reject(error);
