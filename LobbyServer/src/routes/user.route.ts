@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import UserController from '@controllers/user.controller';
-import { UserCreateDto, UserUpdateDto, UserLocationUpdateDto } from '@dtos/user.dto';
+import { UserCreateDto, UserUpdateDto, UpdateUserLocationDto } from '@dtos/user.dto';
 import { Routes } from '@interfaces/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
 
@@ -16,7 +16,7 @@ class UserRoute implements Routes {
     private initializeRoutes() {
         //#region Location
         this.router.put(`${this.path}/verify-location/:id`, this.userController.verifyUserLocation);
-        this.router.put(`${this.path}/location`, validationMiddleware(UserLocationUpdateDto, 'body'), this.userController.updateUserLocation);
+        this.router.put(`${this.path}/location`, validationMiddleware(UpdateUserLocationDto, 'body'), this.userController.updateUserLocation);
         //#endregion
 
         this.router.get(`${this.path}/all`, this.userController.getUsers);

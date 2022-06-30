@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserCreateDto, UserUpdateDto, UserResponseDto, UserLocationUpdateDto } from '@dtos/user.dto';
+import { UserCreateDto, UserUpdateDto, UserResponseDto, UpdateUserLocationDto } from '@dtos/user.dto';
 import { User } from '@interfaces/user.interface';
 import UserService from '@services/user.service';
 
@@ -73,8 +73,8 @@ class UserController {
 
     public updateUserLocation = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const userLocationUpdateDto: UserLocationUpdateDto = req.body;
-            const response = await this.userService.updateUserLocation(userLocationUpdateDto);
+            const updateUserLocationDto: UpdateUserLocationDto = req.body;
+            const response = await this.userService.updateUserLocation(updateUserLocationDto);
             res.status(200).json(response);
         } catch (error) {
             next(error);

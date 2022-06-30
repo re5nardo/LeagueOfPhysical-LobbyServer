@@ -1,4 +1,5 @@
-import { IsNumber, IsString, IsEnum, IsObject } from 'class-validator';
+import { IsNumber, IsString, IsEnum, IsObject, IsArray, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 import { Location, LocationDetail } from '@interfaces/user.location.interface';
 import { User } from '@interfaces/user.interface';
 import { UserFactory } from '@factories/user.factory';
@@ -53,7 +54,14 @@ export class UserUpdateDto {
     }
 }
 
-export class UserLocationUpdateDto {
+export class UpdateUserLocationDto {
+    @IsArray()
+    //@ValidateNested({ each: true })
+    //@Type(() => UserLocationDto)
+    public userLocations: UserLocationDto[];
+}
+
+export class UserLocationDto {
     @IsString()
     public userId: string;
 
@@ -109,5 +117,5 @@ export class VerifyUserLocationResponseDto implements ResponseBase {
 
 export class UpdateUserLocationResponseDto implements ResponseBase {
     public code: number;
-    public user?: UserResponseDto;
+    public users?: UserResponseDto[];
 }

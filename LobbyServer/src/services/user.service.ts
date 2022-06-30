@@ -1,4 +1,4 @@
-import { UserCreateDto, UserUpdateDto, UserLocationUpdateDto, VerifyUserLocationResponseDto, UpdateUserLocationResponseDto, GetUserResponseDto, FindAllUsersResponseDto } from '@dtos/user.dto';
+import { UserCreateDto, UserUpdateDto, UpdateUserLocationDto, VerifyUserLocationResponseDto, UpdateUserLocationResponseDto, GetUserResponseDto, FindAllUsersResponseDto, UserResponseDto } from '@dtos/user.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { User } from '@interfaces/user.interface';
 import { isEmpty } from '@utils/util';
@@ -152,21 +152,25 @@ class UserService {
         }
     }
 
-    public async updateUserLocation(userLocationUpdateDto: UserLocationUpdateDto): Promise<UpdateUserLocationResponseDto> {
+    public async updateUserLocation(updateUserLocationDto: UpdateUserLocationDto): Promise<UpdateUserLocationResponseDto> {
         try {
-            const user = await this.userRepository.findById(userLocationUpdateDto.userId);
-            if (user) {
-                user.location = userLocationUpdateDto.location;
-                user.locationDetail = userLocationUpdateDto.locationDetail;
-                return {
-                    code: ResponseCode.SUCCESS,
-                    user: await this.userRepository.save(user)
-                };
-            } else {
-                return {
-                    code: ResponseCode.USER_NOT_EXIST
-                };
+            const userIds = updateUserLocationDto.userLocations.map(userLocation => userLocation.userId);
+            let users = await this.userRepository.findAllById(userIds);
+            for (const user of users) {
+                const userLocationDto = updateUserLocationDto.userLocations.find(userLocation => userLocation.userId == user.id);
+                if (userLocationDto) {
+                    user.location = userLocationDto.location;
+                    user.locationDetail = userLocationDto.locationDetail;
+                }
             }
+
+            await this.userRepository.saveAll(users);
+            users = await this.userRepository.findAllById(userIds);
+
+            return {
+                code: ResponseCode.SUCCESS,
+                users: Array.from(users).map<UserResponseDto>(user => UserResponseDto.from(user))
+            };
         } catch (error) {
             return Promise.reject(error);
         }
