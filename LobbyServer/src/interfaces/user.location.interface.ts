@@ -1,8 +1,8 @@
 
 export enum Location {
     Unknown = 0,
-    InGameRoom = 1,
-    InWaitingRoom = 2,
+    InWaitingRoom = 1,
+    InGameRoom = 2,
 }
 
 export class LocationDetail {
