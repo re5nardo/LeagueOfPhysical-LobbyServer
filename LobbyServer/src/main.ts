@@ -15,8 +15,7 @@ import loader from '@loaders/index';
         const app = new App([new IndexRoute(), new UserRoute(), new LobbyRoute()]);
 
         app.listen();
-
-      } catch (error) {
-          logger.error(`main error. error: ${error}`);
-      }
+    } catch (error) {
+        logger.error(`main error. error: ${error}`);
+    }
 })();
