@@ -4,7 +4,7 @@ import { WaitingRoom } from '@interfaces/waitingRoom.interface';
 import HttpService from '@services/httpServices/httpService';
 import { MATCH_MAKING_SERVER_HOST, MATCH_MAKING_SERVER_PORT } from '@config';
 
-class MtchmakingServerService extends HttpService {
+class MatchmakingServerService extends HttpService {
     constructor() {
         if (!MATCH_MAKING_SERVER_HOST || !MATCH_MAKING_SERVER_PORT) {
             throw new Error(`MATCH_MAKING_SERVER_HOST: ${MATCH_MAKING_SERVER_HOST}, MATCH_MAKING_SERVER_PORT: ${MATCH_MAKING_SERVER_PORT}`);
@@ -33,4 +33,4 @@ class MtchmakingServerService extends HttpService {
     }
 }
 
-export default MtchmakingServerService;
+export default MatchmakingServerService;
