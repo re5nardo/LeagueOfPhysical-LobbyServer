@@ -1,4 +1,4 @@
-import { UserCreateDto, UserUpdateDto, UpdateUserLocationDto, VerifyUserLocationResponseDto, UpdateUserLocationResponseDto, GetUserResponseDto, FindAllUsersResponseDto, UserResponseDto } from '@dtos/user.dto';
+import { CreateUserDto, CreateUserResponseDto, UpdateUserLocationDto, VerifyUserLocationResponseDto, UpdateUserLocationResponseDto, GetUserResponseDto, FindAllUsersResponseDto, UserResponseDto } from '@dtos/user.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { User } from '@interfaces/user.interface';
 import { isEmpty } from '@utils/util';
@@ -52,45 +52,12 @@ class UserService {
         }
     }
 
-    public async createUser(userCreateDto: UserCreateDto): Promise<User> {
+    public async createUser(createUserDto: CreateUserDto): Promise<CreateUserResponseDto> {
         try {
-            if (isEmpty(userCreateDto)) {
-                throw new HttpException(400, "You're not userData");
-            }
-
-            //const findUser = await this.userModel.findOne({ email: userData.email });
-            //if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
-
-            //const hashedPassword = await hash(userData.password, 10);
-
-            return await this.userRepository.save(userCreateDto.toEntity());
-        } catch (error) {
-            return Promise.reject(error);
-        }
-    }
-
-    public async updateUser(id: string, userUpdateDto: UserUpdateDto): Promise<User> {
-        try {
-            if (isEmpty(userUpdateDto)) {
-                throw new HttpException(400, "You're not userData");
-            }
-
-            // if (userData.nickname) {
-            //   const findUser = await this.userModel.findOne({ nickname: userData.nickname });
-            //   if (findUser && findUser._id != id) throw new HttpException(409, `You're nickname ${userData.nickname} already exists`);
-            // }
-
-            // if (userData.password) {
-            //   const hashedPassword = await hash(userData.password, 10);
-            //   userData = { ...userData, password: hashedPassword };
-            // }
-
-            const user = await this.userRepository.findById(id);
-            if (user) {
-                return await this.userRepository.save(userUpdateDto.toEntity(user));
-            } else {
-                throw new HttpException(400, "You're not userData");
-            }
+            return {
+                code: ResponseCode.SUCCESS,
+                user: await this.userRepository.save(createUserDto.toEntity())
+            };
         } catch (error) {
             return Promise.reject(error);
         }
@@ -192,11 +159,11 @@ class UserService {
         }
     }
 
-    public async createUsers(userCreateDtos: UserCreateDto[]): Promise<void> {
+    public async createUsers(createUserDtos: CreateUserDto[]): Promise<void> {
         try {
             const users: User[] = [];
-            for (const userCreateDto of userCreateDtos) {
-                users.push(userCreateDto.toEntity());
+            for (const createUserDto of createUserDtos) {
+                users.push(createUserDto.toEntity());
             }
             return await this.userRepository.saveAll(users);
         } catch (error) {

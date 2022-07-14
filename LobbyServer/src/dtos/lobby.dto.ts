@@ -1,10 +1,10 @@
 import { IsNumber } from 'class-validator';
 import { ResponseBase } from '@interfaces/responseBase.interface';
 
-export class LobbyJoinResponseDto implements ResponseBase {
+export class JoinLobbyResponseDto implements ResponseBase {
     public code: number;
 }
 
-export class LobbyLeaveResponseDto implements ResponseBase {
+export class LeaveLobbyResponseDto implements ResponseBase {
     public code: number;
 }
