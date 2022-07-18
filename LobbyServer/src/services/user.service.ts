@@ -8,6 +8,7 @@ import WaitingRoomService from '@services/waitingRoom.service';
 import RoomService from '@services/room.service';
 import MatchmakingTicketService from '@services/matchmakingTicket.service';
 import { ResponseCode } from '@interfaces/responseCode.interface';
+import { UserMapper } from '@mappers/user.mapper';
 
 class UserService {
 
@@ -56,7 +57,7 @@ class UserService {
         try {
             return {
                 code: ResponseCode.SUCCESS,
-                user: await this.userRepository.save(createUserDto.toEntity())
+                user: await this.userRepository.save(UserMapper.CreateUserDto.toEntity(createUserDto))
             };
         } catch (error) {
             return Promise.reject(error);
@@ -136,7 +137,7 @@ class UserService {
 
             return {
                 code: ResponseCode.SUCCESS,
-                users: Array.from(savedUsers).map<UserResponseDto>(user => UserResponseDto.from(user))
+                users: Array.from(savedUsers).map<UserResponseDto>(user => UserMapper.toUserResponseDto(user))
             };
         } catch (error) {
             return Promise.reject(error);
@@ -163,7 +164,7 @@ class UserService {
         try {
             const users: User[] = [];
             for (const createUserDto of createUserDtos) {
-                users.push(createUserDto.toEntity());
+                users.push(UserMapper.CreateUserDto.toEntity(createUserDto));
             }
             return await this.userRepository.saveAll(users);
         } catch (error) {
