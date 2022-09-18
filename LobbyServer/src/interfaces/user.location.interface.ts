@@ -7,10 +7,20 @@ export enum Location {
 
 export class LocationDetail {
     location: Location;
+
+    public constructor(location: Location) {
+        this.location = location;
+    }
 }
 
 export class GameRoomLocationDetail extends LocationDetail {
     gameRoomId: string;
+
+    public constructor(location: Location, gameRoomId: string) {
+        super(location);
+
+        this.gameRoomId = gameRoomId;
+    }
 }
 
 export class WaitingRoomLocationDetail extends LocationDetail {
