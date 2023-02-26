@@ -16,4 +16,4 @@ RUN npm install
 COPY . .
 
 EXPOSE 1340
-CMD [ "node", "main.js" ]
+CMD [ "node", "dist/main.js" ]
