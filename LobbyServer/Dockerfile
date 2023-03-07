@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:16 as ts-compiler
 
 # 앱 디렉터리 생성
 WORKDIR /usr/src/lobby-server
@@ -7,6 +7,7 @@ WORKDIR /usr/src/lobby-server
 # 가능한 경우(npm@5+) package.json과 package-lock.json을 모두 복사하기 위해
 # 와일드카드를 사용
 COPY package*.json ./
+COPY tsconfig*.json ./
 
 RUN npm install
 # 프로덕션을 위한 코드를 빌드하는 경우
@@ -14,6 +15,8 @@ RUN npm install
 
 # 앱 소스 추가
 COPY . .
+
+RUN npm run build
 
 EXPOSE 1340
 CMD [ "node", "dist/main.js" ]
