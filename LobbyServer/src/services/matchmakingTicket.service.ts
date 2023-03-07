@@ -1,4 +1,4 @@
-import { MatchmakingTicket } from '@interfaces/MatchmakingTicket.interface';
+import { MatchmakingTicket } from '@interfaces/matchmakingTicket.interface';
 import MatchmakingServerService from '@services/httpServices/matchmakingServer.service';
 
 class MatchmakingTicketService {
