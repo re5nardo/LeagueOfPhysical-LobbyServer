@@ -1,8 +1,15 @@
 
+export interface UserLocation {
+    id: string;
+    location: Location;
+    locationDetail: LocationDetail;
+    timestamp: number;
+}
+
 export enum Location {
-    Unknown = 0,
-    InWaitingRoom = 1,
-    InGameRoom = 2,
+    None = 0,
+    WaitingRoom = 1,
+    GameRoom = 2,
 }
 
 export class LocationDetail {

@@ -1,22 +1,12 @@
-import { CreateUserDto, CreateUserResponseDto, UpdateUserLocationDto, VerifyUserLocationResponseDto, UpdateUserLocationResponseDto, GetUserResponseDto, FindAllUsersResponseDto, UserResponseDto } from '@dtos/user.dto';
-import { HttpException } from '@exceptions/HttpException';
+import { CreateUserDto, CreateUserResponseDto, GetUserResponseDto, FindAllUsersResponseDto } from '@dtos/user.dto';
 import { User } from '@interfaces/user.interface';
-import { isEmpty } from '@utils/util';
 import { UserRepository } from '@repositories/user.repository';
-import { GameRoomLocationDetail, Location, WaitingRoomLocationDetail } from '@interfaces/user.location.interface';
-import WaitingRoomService from '@services/waitingRoom.service';
-import RoomService from '@services/room.service';
-import MatchmakingTicketService from '@services/matchmakingTicket.service';
 import { ResponseCode } from '@interfaces/responseCode.interface';
 import { UserMapper } from '@mappers/user.mapper';
 
 class UserService {
-
     private userRepository = new UserRepository();
-    private waitingRoomService = new WaitingRoomService();
-    private roomService = new RoomService();
-    private matchmakingTicketService = new MatchmakingTicketService();
-
+    
     public async findAllUsers(): Promise<User[]> {
         try {
             return await this.userRepository.findAll() as User[];
@@ -58,86 +48,6 @@ class UserService {
             return {
                 code: ResponseCode.SUCCESS,
                 user: await this.userRepository.save(UserMapper.CreateUserDto.toEntity(createUserDto))
-            };
-        } catch (error) {
-            return Promise.reject(error);
-        }
-    }
-
-    public async verifyUserLocation(userId: string): Promise<VerifyUserLocationResponseDto> {
-        try {
-            const user = await this.userRepository.findById(userId);
-            if (!user) {
-                return {
-                    code: ResponseCode.USER_NOT_EXIST
-                };
-            }
-
-            switch (+user.location) {
-                case Location.Unknown:
-                    user.location = Location.Unknown;
-                    user.locationDetail = {
-                        location: Location.Unknown
-                    }
-                    break;
-
-                case Location.InWaitingRoom:
-                    const waitingRoomLocationDetail = user.locationDetail as WaitingRoomLocationDetail;
-                    const waitingRoom = await this.waitingRoomService.findWaitingRoomById(waitingRoomLocationDetail.waitingRoomId);
-                    if (!waitingRoom) {
-                        user.location = Location.Unknown;
-                        user.locationDetail = {
-                            location: Location.Unknown
-                        }
-                    } else {
-                        const matchmakingTicket = await this.matchmakingTicketService.findMatchmakingTicketById(waitingRoomLocationDetail.matchmakingTicketId);
-                        if (!matchmakingTicket || waitingRoom.matchmakingTicketList.includes(waitingRoomLocationDetail.matchmakingTicketId) === false) {
-                            user.location = Location.Unknown;
-                            user.locationDetail = {
-                                location: Location.Unknown
-                            }
-                        }
-                    }
-                    break;
-
-                case Location.InGameRoom:
-                    const gameRoomLocationDetail = user.locationDetail as GameRoomLocationDetail;
-                    const getRoomResponseDto = await this.roomService.findRoomById(gameRoomLocationDetail.gameRoomId);
-                    if (!getRoomResponseDto.room) {
-                        user.location = Location.Unknown;
-                        user.locationDetail = {
-                            location: Location.Unknown
-                        }
-                    }
-                    break;
-            }
-            return {
-                code: ResponseCode.SUCCESS,
-                user: await this.userRepository.save(user)
-            };
-        } catch (error) {
-            return Promise.reject(error);
-        }
-    }
-
-    public async updateUserLocation(updateUserLocationDto: UpdateUserLocationDto): Promise<UpdateUserLocationResponseDto> {
-        try {
-            const userIds = updateUserLocationDto.userLocations.map(userLocation => userLocation.userId);
-            const users = await this.userRepository.findAllById(userIds);
-            for (const user of users) {
-                const userLocationDto = updateUserLocationDto.userLocations.find(userLocation => userLocation.userId == user.id);
-                if (userLocationDto) {
-                    user.location = userLocationDto.location;
-                    user.locationDetail = userLocationDto.locationDetail;
-                }
-            }
-
-            await this.userRepository.saveAll(users);
-            const savedUsers = await this.userRepository.findAllById(userIds);
-
-            return {
-                code: ResponseCode.SUCCESS,
-                users: Array.from(savedUsers).map<UserResponseDto>(user => UserMapper.toUserResponseDto(user))
             };
         } catch (error) {
             return Promise.reject(error);

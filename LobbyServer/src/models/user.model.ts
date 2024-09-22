@@ -1,6 +1,5 @@
 import { model, Schema, Document } from 'mongoose';
 import { User } from '@interfaces/user.interface';
-import { Location } from '@interfaces/user.location.interface';
 
 const userSchema: Schema = new Schema({
     id: {
@@ -14,11 +13,6 @@ const userSchema: Schema = new Schema({
     rankRating: Number,
     goldCoin: Number,
     gem: Number,
-    location: {
-        type: Number,
-        enum: Location,
-    },
-    locationDetail: Schema.Types.Mixed,
 });
 
 const userModel = model<User & Document>('User', userSchema);

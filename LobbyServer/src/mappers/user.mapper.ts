@@ -21,8 +21,6 @@ export class UserMapper {
             rankRating: user.rankRating,
             goldCoin: user.goldCoin,
             gem: user.gem,
-            location: user.location,
-            locationDetail: user.locationDetail
         };
     }
 }

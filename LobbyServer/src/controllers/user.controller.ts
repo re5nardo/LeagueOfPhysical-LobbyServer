@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto, UserResponseDto, UpdateUserLocationDto } from '@dtos/user.dto';
+import { CreateUserDto, UserResponseDto } from '@dtos/user.dto';
 import { User } from '@interfaces/user.interface';
 import UserService from '@services/user.service';
 import { UserMapper } from '@mappers/user.mapper';
@@ -44,26 +44,6 @@ class UserController {
             await this.userService.deleteUserById(userId);
 
             res.status(200).json({ data: {}, message: `userId: ${userId} deleted` });
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    public verifyUserLocation = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const userId: string = req.params.id;
-            const response = await this.userService.verifyUserLocation(userId);
-            res.status(200).json(response);
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    public updateUserLocation = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const updateUserLocationDto: UpdateUserLocationDto = req.body;
-            const response = await this.userService.updateUserLocation(updateUserLocationDto);
-            res.status(200).json(response);
         } catch (error) {
             next(error);
         }
