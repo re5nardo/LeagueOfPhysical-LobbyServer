@@ -100,6 +100,7 @@ class UserLocationService {
                     }
                     break;
             }
+            userLocation.timestamp = Date.now();
             return await this.userLocationRepository.save(userLocation);
         } catch (error) {
             return Promise.reject(error);
