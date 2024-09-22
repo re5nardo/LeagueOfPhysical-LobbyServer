@@ -32,5 +32,12 @@ export class GameRoomLocationDetail extends LocationDetail {
 
 export class WaitingRoomLocationDetail extends LocationDetail {
     waitingRoomId: string;
-    matchmakingTicketId: string;
+    matchmakingTicketId: string;    //  존재 이유가??
+
+    public constructor(location: Location, waitingRoomId: string, matchmakingTicketId: string) {
+        super(location);
+
+        this.waitingRoomId = waitingRoomId;
+        this.matchmakingTicketId = matchmakingTicketId;
+    }
 }

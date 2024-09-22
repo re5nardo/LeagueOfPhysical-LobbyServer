@@ -1,15 +1,17 @@
-import { CreateUserDto, CreateUserResponseDto, GetUserResponseDto, FindAllUsersResponseDto } from '@dtos/user.dto';
+import { CreateUserDto, CreateUserResponseDto, GetUserResponseDto, FindAllUsersResponseDto, UserResponseDto } from '@dtos/user.dto';
 import { User } from '@interfaces/user.interface';
 import { UserRepository } from '@repositories/user.repository';
 import { ResponseCode } from '@interfaces/responseCode.interface';
 import { UserMapper } from '@mappers/user.mapper';
+import { ResponseBase } from '@src/interfaces/responseBase.interface';
 
 class UserService {
     private userRepository = new UserRepository();
-    
+
     public async findAllUsers(): Promise<User[]> {
         try {
-            return await this.userRepository.findAll() as User[];
+            const users = await this.userRepository.findAll() as User[];
+            return Array.from(users).map<UserResponseDto>(user => UserMapper.toUserResponseDto(user));
         } catch (error) {
             return Promise.reject(error);
         }
@@ -17,9 +19,10 @@ class UserService {
 
     public async findAllUsersById(ids: Iterable<string>): Promise<FindAllUsersResponseDto> {
         try {
+            const users = await this.userRepository.findAllById(ids) as User[];
             return {
                 code: ResponseCode.SUCCESS,
-                users: await this.userRepository.findAllById(ids) as User[]
+                users: Array.from(users).map<UserResponseDto>(user => UserMapper.toUserResponseDto(user)),
             };
         } catch (error) {
             return Promise.reject(error);
@@ -36,7 +39,7 @@ class UserService {
             }
             return {
                 code: ResponseCode.SUCCESS,
-                user: findUser
+                user: UserMapper.toUserResponseDto(findUser),
             };
         } catch (error) {
             return Promise.reject(error);
@@ -45,38 +48,49 @@ class UserService {
 
     public async createUser(createUserDto: CreateUserDto): Promise<CreateUserResponseDto> {
         try {
+            const user = UserMapper.CreateUserDto.toEntity(createUserDto);
+            await this.userRepository.save(user);
             return {
                 code: ResponseCode.SUCCESS,
-                user: await this.userRepository.save(UserMapper.CreateUserDto.toEntity(createUserDto))
+                user: UserMapper.toUserResponseDto(user),
             };
         } catch (error) {
             return Promise.reject(error);
         }
     }
 
-    public async deleteUser(user: User): Promise<void> {
+    public async deleteUser(user: User): Promise<ResponseBase> {
         try {
-            return await this.userRepository.delete(user);
+            await this.userRepository.delete(user);
+            return {
+                code: ResponseCode.SUCCESS,
+            };
         } catch (error) {
             return Promise.reject(error);
         }
     }
 
-    public async deleteUserById(id: string): Promise<void> {
+    public async deleteUserById(id: string): Promise<ResponseBase> {
         try {
-            return await this.userRepository.deleteById(id);
+            await this.userRepository.deleteById(id);
+            return {
+                code: ResponseCode.SUCCESS,
+            };
         } catch (error) {
             return Promise.reject(error);
         }
     }
 
-    public async createUsers(createUserDtos: CreateUserDto[]): Promise<void> {
+    public async createUsers(createUserDtos: CreateUserDto[]): Promise<ResponseBase> {
         try {
             const users: User[] = [];
             for (const createUserDto of createUserDtos) {
                 users.push(UserMapper.CreateUserDto.toEntity(createUserDto));
             }
-            return await this.userRepository.saveAll(users);
+            await this.userRepository.saveAll(users);
+            return {
+                code: ResponseCode.SUCCESS,
+            };
         } catch (error) {
             return Promise.reject(error);
         }
@@ -98,21 +112,27 @@ class UserService {
         }
     }
 
-    public async deleteAllUsers(users?: Iterable<User>): Promise<void> {
+    public async deleteAllUsers(users?: Iterable<User>): Promise<ResponseBase> {
         try {
             if (users) {
-                return await this.userRepository.deleteAll(users);
+                await this.userRepository.deleteAll(users);
             } else {
-                return await this.userRepository.deleteAll();
+                await this.userRepository.deleteAll();
             }
+            return {
+                code: ResponseCode.SUCCESS,
+            };
         } catch (error) {
             return Promise.reject(error);
         }
     }
 
-    public async deleteAllUsersById(ids: Iterable<string>): Promise<void> {
+    public async deleteAllUsersById(ids: Iterable<string>): Promise<ResponseBase> {
         try {
-            return await this.userRepository.deleteAllById(ids);
+            await this.userRepository.deleteAllById(ids);
+            return {
+                code: ResponseCode.SUCCESS,
+            };
         } catch (error) {
             return Promise.reject(error);
         }
