@@ -7,7 +7,7 @@ export class UpdateUserLocationDto {
     @IsArray()
     // @ValidateNested({ each: true })
     // @Type(() => UserLocationDto)
-    public userLocations: UserLocationDto[];
+    public userLocations: UserLocationDto[] = [];
 }
 
 export class UserLocationDto {
