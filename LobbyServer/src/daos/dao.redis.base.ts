@@ -146,4 +146,15 @@ export abstract class DaoRedisBase<T extends { id: any }> implements CrudDao<T> 
             return Promise.reject(error);
         }
     }
+
+    //  성능이... 매우 나쁨.. 고민 필요..
+    public async findByField<K extends keyof T>(field: K, value: T[K]): Promise<T | undefined | null> {
+        try {
+            const entities = await this.findAll();
+            const entity = Array.from(entities).find(entity => entity[field] === value);
+            return entity;
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
 }

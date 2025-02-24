@@ -19,4 +19,6 @@ export interface CrudDao<T extends { id: any }> extends Dao<T> {
     deleteAll(): Promise<void>;
     deleteAll(entities: Iterable<T>): Promise<void>;
     deleteAllById(ids: Iterable<T["id"]>): Promise<void>;
+
+    findByField<K extends keyof T>(field: K, value: T[K]): Promise<T | undefined | null>;
 }

@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model, FilterQuery } from 'mongoose';
 import { CrudDao } from '@daos/dao.interface';
 import { AnyBulkWriteOperation } from 'mongodb';
 
@@ -107,6 +107,15 @@ export abstract class DaoMongooseBase<T extends { id: any }> implements CrudDao<
     public async deleteAllById(ids: Iterable<T["id"]>): Promise<void> {
         try {
             await this.mongooseModel.deleteMany({ id: { $in: ids } });
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    public async findByField<K extends keyof T>(field: K, value: T[K]): Promise<T | undefined | null> {
+        try {
+            const filter = { [field]: value } as unknown as FilterQuery<T>;
+            return await this.mongooseModel.findOne(filter).lean();
         } catch (error) {
             return Promise.reject(error);
         }

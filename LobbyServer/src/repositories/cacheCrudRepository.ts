@@ -131,4 +131,21 @@ export class CacheCrudRepository<T extends { id: any }> implements CrudRepositor
             return Promise.reject(error);
         }
     }
+    
+    public async findByField<K extends keyof T>(field: K, value: T[K]): Promise<T | undefined | null> {
+        try {
+            const cachedEntity = await this.cacheDao.findByField(field, value);
+            if (cachedEntity) {
+                return cachedEntity;
+            } else {
+                const entity = await this.dao.findByField(field, value);
+                if (entity) {
+                    await this.cacheDao.save(entity);
+                }
+                return entity;
+            }
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
 }
