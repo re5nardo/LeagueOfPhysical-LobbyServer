@@ -8,10 +8,13 @@ import { ResponseBase } from '@src/interfaces/responseBase.interface';
 class UserService {
     private userRepository = new UserRepository();
 
-    public async findAllUsers(): Promise<User[]> {
+    public async findAllUsers(): Promise<FindAllUsersResponseDto> {
         try {
             const users = await this.userRepository.findAll() as User[];
-            return Array.from(users).map<UserResponseDto>(user => UserMapper.toUserResponseDto(user));
+            return {
+                code: ResponseCode.SUCCESS,
+                users: Array.from(users).map<UserResponseDto>(user => UserMapper.toUserResponseDto(user)),
+            };
         } catch (error) {
             return Promise.reject(error);
         }

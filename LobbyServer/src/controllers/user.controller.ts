@@ -1,18 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto, UserResponseDto } from '@dtos/user.dto';
-import { User } from '@interfaces/user.interface';
 import UserService from '@services/user.service';
-import { UserMapper } from '@mappers/user.mapper';
 
 class UserController {
     private userService = new UserService();
 
     public getUsers = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const findAllUsersData: User[] = await this.userService.findAllUsers();
-            const users: UserResponseDto[] = Array.from(findAllUsersData).map<UserResponseDto>(userData => UserMapper.toUserResponseDto(userData));
-
-            res.status(200).json({ data: users, message: 'findAll' }); //  BaseResponse?
+            const response = await this.userService.findAllUsers();
+            res.status(200).json(response);
         } catch (error) {
             next(error);
         }
