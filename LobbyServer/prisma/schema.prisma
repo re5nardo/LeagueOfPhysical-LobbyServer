@@ -22,3 +22,16 @@ model User {
   goldCoin        Int             @default(100)   
   gem             Int             @default(10)   
 }
+
+enum Location {
+  None
+  WaitingRoom
+  GameRoom
+}
+
+model UserLocation {
+  id             String    @id @unique
+  location       Location
+  locationDetail Json
+  timestamp      Int
+}
