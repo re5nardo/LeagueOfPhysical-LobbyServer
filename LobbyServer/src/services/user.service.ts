@@ -2,7 +2,7 @@ import { CreateUserDto, CreateUserResponseDto, GetUserResponseDto, FindAllUsersR
 import { User } from '@interfaces/user.interface';
 import { UserRepository } from '@repositories/user.repository';
 import { ResponseCode } from '@interfaces/responseCode.interface';
-import { UserMapper } from '@mappers/user.mapper';
+import { UserMapper } from '@mappers/controllers/user.mapper';
 import { ResponseBase } from '@src/interfaces/responseBase.interface';
 
 class UserService {

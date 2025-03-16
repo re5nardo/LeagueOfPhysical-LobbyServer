@@ -5,7 +5,7 @@ import WaitingRoomService from '@services/waitingRoom.service';
 import RoomService from '@services/room.service';
 import MatchmakingTicketService from '@services/matchmakingTicket.service';
 import { ResponseCode } from '@interfaces/responseCode.interface';
-import { UserLocationMapper } from '@mappers/user-location.mapper';
+import { UserLocationMapper } from '@mappers/controllers/user.location.mapper';
 import { RoomStatus } from '@interfaces/room.interface';
 import { UserLocationFactory } from '@factories/user-location.factory';
 
@@ -100,7 +100,7 @@ class UserLocationService {
                     }
                     break;
             }
-            userLocation.timestamp = Date.now();
+            userLocation.timestamp = new Date();
             return await this.userLocationRepository.save(userLocation);
         } catch (error) {
             return Promise.reject(error);

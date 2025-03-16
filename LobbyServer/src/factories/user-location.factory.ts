@@ -13,7 +13,7 @@ export class UserLocationFactory {
             locationDetail: {
                 location: Location.None,
             },
-            timestamp: Date.now(),
+            timestamp: new Date(),
         };
     }
 }

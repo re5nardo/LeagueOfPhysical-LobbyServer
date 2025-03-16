@@ -30,8 +30,8 @@ enum Location {
 }
 
 model UserLocation {
-  id             String    @id @unique
+  id             String     @id @unique
   location       Location
   locationDetail Json
-  timestamp      Int
+  timestamp      DateTime   @default(now())
 }

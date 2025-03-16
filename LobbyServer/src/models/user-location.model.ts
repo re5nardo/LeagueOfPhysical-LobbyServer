@@ -12,7 +12,7 @@ const userLocationSchema: Schema = new Schema({
         enum: Location,
     },
     locationDetail: Schema.Types.Mixed,
-    timestamp: Number,
+    timestamp: Date,
 });
 
 const userLocationModel = model<UserLocation & Document>('UserLocation', userLocationSchema);

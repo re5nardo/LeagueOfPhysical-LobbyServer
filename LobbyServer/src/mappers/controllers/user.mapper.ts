@@ -1,5 +1,5 @@
-import { User } from "@interfaces/user.interface";
-import { CreateUserDto, UserResponseDto } from "@dtos/user.dto";
+import { User } from '@interfaces/user.interface';
+import { CreateUserDto, UserResponseDto } from '@dtos/user.dto';
 import { UserFactory } from '@factories/user.factory';
 
 export class UserMapper {
