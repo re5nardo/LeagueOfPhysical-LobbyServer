@@ -51,8 +51,8 @@ class UserService {
 
     public async createUser(createUserDto: CreateUserDto): Promise<CreateUserResponseDto> {
         try {
-            const user = UserMapper.CreateUserDto.toEntity(createUserDto);
-            await this.userRepository.save(user);
+            let user = UserMapper.CreateUserDto.toEntity(createUserDto);
+            user = await this.userRepository.save(user);
             return {
                 code: ResponseCode.SUCCESS,
                 user: UserMapper.toUserResponseDto(user),

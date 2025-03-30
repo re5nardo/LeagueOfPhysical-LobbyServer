@@ -23,7 +23,7 @@ class UserLocationService {
                 userLocation = UserLocationFactory.create({
                     id: userId,
                 });
-                await this.userLocationRepository.save(userLocation);
+                userLocation = await this.userLocationRepository.save(userLocation);
             } else {
                 userLocation = await this.verifyUserLocation(userLocation);
             }
