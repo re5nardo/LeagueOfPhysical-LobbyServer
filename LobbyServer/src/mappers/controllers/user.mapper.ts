@@ -6,8 +6,8 @@ export class UserMapper {
     static CreateUserDto = class {
         public static toEntity(createUserDto: CreateUserDto): User {
             return UserFactory.create({
-                id: createUserDto.id,
-                nickname: createUserDto.nickname
+                username: createUserDto.username,
+                email: createUserDto.email,
             });
         }
     };
@@ -15,12 +15,8 @@ export class UserMapper {
     public static toUserResponseDto(user: User): UserResponseDto {
         return {
             id: user.id,
-            nickname: user.nickname,
-            masterExp: user.masterExp,
-            friendlyRating: user.friendlyRating,
-            rankRating: user.rankRating,
-            goldCoin: user.goldCoin,
-            gem: user.gem,
+            username: user.username,
+            email: user.email,
         };
     }
 }

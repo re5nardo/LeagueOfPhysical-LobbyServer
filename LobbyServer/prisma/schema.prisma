@@ -14,13 +14,13 @@ datasource db {
 }
 
 model User {
-  id              String          @id @unique
-  nickname        String          @unique
-  masterExp       Int
-  friendlyRating  Int             @default(1500)   
-  rankRating      Int             @default(1500)   
-  goldCoin        Int             @default(100)   
-  gem             Int             @default(10)   
+  id              String         @id @default(uuid())
+  username        String         @unique
+  email           String         @unique
+  passwordHash    String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  lastLoginAt     DateTime?
 }
 
 enum Location {

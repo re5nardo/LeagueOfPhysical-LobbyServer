@@ -6,25 +6,21 @@ export class UserMapper implements DomainEntityMapper<User, UserEntity> {
     public toDomain(entity: UserEntity): User {
         return {
             id: entity.id,
-            nickname: entity.nickname,
-            masterExp: entity.masterExp,
-            friendlyRating: entity.friendlyRating,
-            rankRating: entity.rankRating,
-            goldCoin: entity.goldCoin,
-            gem: entity.gem,
+            username: entity.username,
+            email: entity.email,
+            passwordHash: entity.passwordHash,
+            lastLoginAt: entity.lastLoginAt,
         };
     }
 
     public toEntity(domain: User): UserEntity {
         return {
             id: domain.id,
-            nickname: domain.nickname,
-            masterExp: domain.masterExp,
-            friendlyRating: domain.friendlyRating,
-            rankRating: domain.rankRating,
-            goldCoin: domain.goldCoin,
-            gem: domain.gem,
-        };
+            username: domain.username,
+            email: domain.email,
+            passwordHash: domain.passwordHash,
+            lastLoginAt: domain.lastLoginAt,
+        } as UserEntity;
     }
 
     public toDomains(entities: Iterable<UserEntity>): Iterable<User> {
@@ -39,18 +35,14 @@ export class UserMapper implements DomainEntityMapper<User, UserEntity> {
         switch (field) {
             case 'id':
                 return 'id';
-            case 'nickname':
-                return 'nickname';
-            case 'masterExp':
-                return 'masterExp';
-            case 'friendlyRating':
-                return 'friendlyRating';
-            case 'rankRating':
-                return 'rankRating';
-            case 'goldCoin':
-                return 'goldCoin';
-            case 'gem':
-                return 'gem';
+            case 'username':
+                return 'username';
+            case 'email':
+                return 'email';
+            case 'passwordHash':
+                return 'passwordHash';
+            case 'lastLoginAt':
+                return 'lastLoginAt';
             default:
                 throw new Error(`Invalid field: ${field}`);
         }

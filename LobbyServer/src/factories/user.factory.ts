@@ -8,12 +8,10 @@ export class UserFactory {
     private static createDefault(): User {
         return {
             id: '',
-            nickname: '',
-            masterExp: 0,
-            friendlyRating: 1500,
-            rankRating: 1500,
-            goldCoin: 100,
-            gem: 10,
+            username: '',
+            email: '',
+            passwordHash: '',
+            lastLoginAt: null,
         };
     }
 }

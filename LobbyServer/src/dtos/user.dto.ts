@@ -3,20 +3,16 @@ import { ResponseBase } from '@interfaces/responseBase.interface';
 
 export class CreateUserDto {
     @IsString()
-    public id: string;
+    public username: string;
 
     @IsString()
-    public nickname: string;
+    public email: string;
 }
 
 export class UserResponseDto {
     public id: string;
-    public nickname: string;
-    public masterExp: number;
-    public friendlyRating: number;
-    public rankRating: number;
-    public goldCoin: number;
-    public gem: number;
+    public username: string;
+    public email: string;
 }
 
 export class CreateUserResponseDto implements ResponseBase {
