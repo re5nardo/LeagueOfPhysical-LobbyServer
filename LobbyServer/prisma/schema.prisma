@@ -23,6 +23,15 @@ model User {
   lastLoginAt     DateTime?
 }
 
+model UserProfile {
+  id          String    @id @default(uuid())
+  nickname    String?
+  avatarUrl   String?
+  bio         String?
+
+  userId      String    @unique
+}
+
 enum Location {
   None
   WaitingRoom
