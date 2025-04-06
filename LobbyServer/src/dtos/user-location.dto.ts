@@ -20,7 +20,6 @@ export class UserLocationResponseDto {
     public userId: string;
     public location: Location;
     public locationDetail: LocationDetail;
-    public timestamp: number;
 }
 
 export class GetUserLocationResponseDto implements ResponseBase {

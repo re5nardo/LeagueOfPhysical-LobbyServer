@@ -13,7 +13,6 @@ export class UserLocationFactory {
             locationDetail: {
                 location: Location.None,
             },
-            timestamp: new Date(),
-        };
+        } as UserLocation;
     }
 }

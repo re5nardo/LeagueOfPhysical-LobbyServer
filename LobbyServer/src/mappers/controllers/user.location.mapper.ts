@@ -7,7 +7,6 @@ export class UserLocationMapper {
             userId: userLocation.id,
             location: userLocation.location,
             locationDetail: userLocation.locationDetail,
-            timestamp: userLocation.timestamp.getTime(),
         };
     }
 }

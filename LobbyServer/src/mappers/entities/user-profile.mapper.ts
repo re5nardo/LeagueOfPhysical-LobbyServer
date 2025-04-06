@@ -33,15 +33,13 @@ export class UserProfileMapper implements DomainEntityMapper<UserProfile, UserPr
 
     public getEntityFieldName<K extends keyof UserProfile>(field: K): string {
         switch (field) {
-            default:
-                return field;
+            default: return field;
         }
     }
     
     public toEntityValue<K extends keyof UserProfile>(field: K, value: UserProfile[K]): any {
         switch (field) {
-            default:
-                return value;
+            default: return value;
         }
     }
 }

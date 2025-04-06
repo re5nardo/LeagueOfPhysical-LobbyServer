@@ -7,10 +7,11 @@ export class UserProfileFactory {
 
     private static createDefault(): UserProfile {
         return {
+            id: '',
             nickname: undefined,
             avatarUrl: undefined,
             bio: undefined,
             userId: '',
-        } as UserProfile;
+        };
     }
 }

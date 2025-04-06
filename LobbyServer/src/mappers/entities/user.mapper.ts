@@ -33,22 +33,13 @@ export class UserMapper implements DomainEntityMapper<User, UserEntity> {
 
     public getEntityFieldName<K extends keyof User>(field: K): string {
         switch (field) {
-            case 'id':
-                return 'id';
-            case 'username':
-                return 'username';
-            case 'email':
-                return 'email';
-            case 'passwordHash':
-                return 'passwordHash';
-            case 'lastLoginAt':
-                return 'lastLoginAt';
-            default:
-                throw new Error(`Invalid field: ${field}`);
+            default: return field;
         }
     }
 
     public toEntityValue<K extends keyof User>(field: K, value: User[K]): any {
-        return value;
+        switch (field) {
+            default: return value;
+        }
     }
 }

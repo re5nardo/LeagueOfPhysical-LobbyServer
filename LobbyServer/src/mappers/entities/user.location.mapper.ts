@@ -54,31 +54,18 @@ export class UserLocationMapper implements DomainEntityMapper<UserLocation, User
 
     public getEntityFieldName<K extends keyof UserLocation>(field: K): string {
         switch (field) {
-            case 'id':
-                return 'id';
-            case 'location':
-                return 'location';
-            case 'locationDetail':
-                return 'locationDetail';
-            case 'timestamp':
-                return 'timestamp';
-            default:
-                throw new Error(`Invalid field: ${field}`);
+            default: return field;
         }
     }
 
     public toEntityValue<K extends keyof UserLocation>(field: K, value: UserLocation[K]): any {
         switch (field) {
-            case 'id':
-                return value;
             case 'location':
                 return this.toLocationEntity(value as Location);
             case 'locationDetail':
                 return JSON.stringify(value);
-            case 'timestamp':
-                return value;
             default:
-                throw new Error(`Invalid field: ${field}`);
+                return value;
         }
     }
 
