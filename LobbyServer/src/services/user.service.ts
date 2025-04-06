@@ -49,6 +49,23 @@ class UserService {
         }
     }
 
+    public async findUserByUsername(username: string): Promise<GetUserResponseDto> {
+        try {
+            const findUser = await this.userRepository.findByField('username', username);
+            if (!findUser) {
+                return {
+                    code: ResponseCode.USER_NOT_EXIST
+                };
+            }
+            return {
+                code: ResponseCode.SUCCESS,
+                user: UserMapper.toUserResponseDto(findUser),
+            };
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
     public async createUser(createUserDto: CreateUserDto): Promise<CreateUserResponseDto> {
         try {
             let user = UserMapper.CreateUserDto.toEntity(createUserDto);
