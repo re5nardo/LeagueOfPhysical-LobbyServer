@@ -32,6 +32,30 @@ model UserProfile {
   userId      String    @unique
 }
 
+enum GameMode {
+  Normal
+  Ranked
+}
+
+model UserStats {
+  id          String        @id @default(uuid())
+  gameMode    GameMode
+
+  gamesPlayed Int           @default(0)
+  wins        Int           @default(0)
+  losses      Int           @default(0)
+  draws       Int           @default(0)
+
+  eloRating   Int           @default(1000)
+  mmr         Int           @default(1000)
+  tier        String        @default("BRONZE")
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  userId      String        @unique
+}
+
 enum Location {
   None
   WaitingRoom

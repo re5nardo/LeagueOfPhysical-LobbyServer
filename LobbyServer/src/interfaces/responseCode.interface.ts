@@ -17,6 +17,7 @@ export class ResponseCode {
 
     //#region User
     public static readonly USER_NOT_EXIST = 30000;
+    public static readonly USER_STATS_NOT_EXIST = 31000;
     //#endregion
 
     //#region WaitingRoom
