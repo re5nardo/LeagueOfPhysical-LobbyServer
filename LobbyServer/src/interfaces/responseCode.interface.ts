@@ -17,7 +17,6 @@ export class ResponseCode {
 
     //#region User
     public static readonly USER_NOT_EXIST = 30000;
-    public static readonly USER_STATS_NOT_EXIST = 31000;
     //#endregion
 
     //#region WaitingRoom
@@ -32,6 +31,10 @@ export class ResponseCode {
 
     //#region User Location
     public static readonly USER_LOCATION_NOT_EXIST = 60000;
+    //#endregion
+    
+    //#region User Stats
+    public static readonly USER_STATS_NOT_EXIST = 70000;
     //#endregion
 
     public static readonly UNKNOWN_ERROR = 5000000;
