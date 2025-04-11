@@ -4,9 +4,13 @@ import { UserRepository } from '@repositories/user.repository';
 import { ResponseCode } from '@interfaces/responseCode.interface';
 import { UserMapper } from '@mappers/controllers/user.mapper';
 import { ResponseBase } from '@src/interfaces/responseBase.interface';
+import { UserStatsFactory } from '@factories/user-stats.factory';
+import { UserStatsRepository } from '@repositories/user-stats.repository';
+import { GameMode } from '@interfaces/user-stats.interface';
 
 class UserService {
     private userRepository = new UserRepository();
+    private userStatsRepository = new UserStatsRepository();
 
     public async findAllUsers(): Promise<FindAllUsersResponseDto> {
         try {
@@ -51,7 +55,7 @@ class UserService {
 
     public async findUserByUsername(username: string): Promise<GetUserResponseDto> {
         try {
-            const findUser = await this.userRepository.findByField('username', username);
+            const findUser = await this.userRepository.findWhere([['username', username]], false);
             if (!findUser) {
                 return {
                     code: ResponseCode.USER_NOT_EXIST
@@ -70,6 +74,21 @@ class UserService {
         try {
             let user = UserMapper.CreateUserDto.toEntity(createUserDto);
             user = await this.userRepository.save(user);
+
+            const normalUserStats = UserStatsFactory.create({
+                userId: user.id,
+                gameMode: GameMode.Normal,
+            });
+            
+            await this.userStatsRepository.save(normalUserStats);
+
+            const rankedUserStats = UserStatsFactory.create({
+                userId: user.id,
+                gameMode: GameMode.Ranked,
+            });
+
+            await this.userStatsRepository.save(rankedUserStats);
+
             return {
                 code: ResponseCode.SUCCESS,
                 user: UserMapper.toUserResponseDto(user),
