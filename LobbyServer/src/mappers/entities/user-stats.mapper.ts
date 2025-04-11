@@ -51,7 +51,10 @@ export class UserStatsMapper implements DomainEntityMapper<UserStats, UserStatsE
     
     public toEntityValue<K extends keyof UserStats>(field: K, value: UserStats[K]): any {
         switch (field) {
-            default: return value;
+            case "gameMode":
+                return this.toEntity_GameMode(value as GameMode);
+            default:
+                return value;
         }
     }
 
