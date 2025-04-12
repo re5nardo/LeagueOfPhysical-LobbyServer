@@ -1,7 +1,7 @@
 import { GetUserStatsResponseDto } from '@dtos/user-stats.dto';
 import { UserStatsRepository } from '@repositories/user-stats.repository';
 import { ResponseCode } from '@interfaces/responseCode.interface';
-import { GameMode } from '@interfaces/user-stats.interface';
+import { GameMode } from '@interfaces/enums';
 import { UserStatsMapper } from '@mappers/controllers/user-stats.mapper';
 
 class UserStatsService {

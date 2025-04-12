@@ -1,4 +1,5 @@
-import { UserStats, GameMode } from '@interfaces/user-stats.interface';
+import { UserStats } from '@interfaces/user-stats.interface';
+import { GameMode } from '@interfaces/enums';
 
 export class UserStatsFactory {
     public static create(properties?: Partial<UserStats>): UserStats {

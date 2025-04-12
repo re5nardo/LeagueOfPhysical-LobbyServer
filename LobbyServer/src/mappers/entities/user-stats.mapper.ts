@@ -2,7 +2,7 @@ import { UserStats } from '@interfaces/user-stats.interface';
 import { UserStats as UserStatsEntity } from '@prisma/client';
 import * as Entity from '@prisma/client';
 import { DomainEntityMapper } from '@mappers/domain.entity.mapper'
-import { GameMode } from '@interfaces/user-stats.interface';
+import { GameMode } from '@interfaces/enums';
 
 export class UserStatsMapper implements DomainEntityMapper<UserStats, UserStatsEntity> {
     public toDomain(entity: UserStatsEntity): UserStats {

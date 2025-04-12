@@ -6,7 +6,7 @@ import { UserMapper } from '@mappers/controllers/user.mapper';
 import { ResponseBase } from '@src/interfaces/responseBase.interface';
 import { UserStatsFactory } from '@factories/user-stats.factory';
 import { UserStatsRepository } from '@repositories/user-stats.repository';
-import { GameMode } from '@interfaces/user-stats.interface';
+import { GameMode } from '@interfaces/enums';
 
 class UserService {
     private userRepository = new UserRepository();

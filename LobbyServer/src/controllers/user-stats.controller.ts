@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { GameMode } from '@interfaces/user-stats.interface';
+import { GameMode } from '@interfaces/enums';
 import UserStatsService from '@services/user-stats.service';
 
 class UserStatsController {
