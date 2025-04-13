@@ -20,3 +20,5 @@ spec:
         envFrom:
         - configMapRef:
             name: lobby-server-config
+        - secretRef:
+            name: postgres-secret
